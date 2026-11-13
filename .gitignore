@@ -1,0 +1,25 @@
+# Models and tokenizers are downloaded, never committed (GitHub rejects >100 MB)
+*.pte
+*.pth
+*.safetensors
+*.bin
+tokenizer.model
+models/
+datasets/
+# Build / IDE
+out/
+build/
+.gradle/
+.idea/
+local.properties
+*.apk
+*.aab
+__pycache__/
+*.pyc
+.venv/
+env-*/
+# Secrets
+.env
+*.jks
+*.keystore
+hf_token*
