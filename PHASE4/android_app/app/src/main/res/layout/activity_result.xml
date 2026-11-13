@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/surface">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="20dp">
+
+        <ProgressBar android:id="@+id/progress"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center" android:layout_marginTop="80dp" />
+
+        <LinearLayout android:id="@+id/groupResult"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:visibility="gone">
+
+            <ImageView android:id="@+id/imgResult"
+                android:layout_width="match_parent" android:layout_height="240dp"
+                android:layout_marginTop="12dp" android:scaleType="fitCenter"
+                android:background="#EEEEEE" android:contentDescription="Analysed photograph" />
+
+            <TextView android:id="@+id/txtPrediction"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="25sp" android:textStyle="bold"
+                android:textColor="@color/leaf_900" android:layout_marginTop="18dp" />
+
+            <TextView android:id="@+id/txtConfidence"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="17sp" android:textColor="@color/leaf_700"
+                android:layout_marginTop="4dp" />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/not_a_diagnosis" android:textSize="13sp"
+                android:textStyle="bold" android:textColor="@color/danger_600"
+                android:layout_marginTop="14dp" android:padding="12dp"
+                android:background="#FDECEA" />
+
+            <TextView android:id="@+id/txtUncertain"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/low_confidence" android:textSize="13sp"
+                android:textColor="@color/amber_600" android:layout_marginTop="10dp"
+                android:padding="12dp" android:background="#FFF4E0" android:visibility="gone" />
+
+            <TextView android:id="@+id/txtCropWarning"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/crop_warning" android:textSize="13sp"
+                android:textColor="@color/amber_600" android:layout_marginTop="10dp"
+                android:padding="12dp" android:background="#FFF4E0" android:visibility="gone" />
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="All four class probabilities" android:textSize="14sp"
+                android:textStyle="bold" android:layout_marginTop="22dp" />
+
+            <TextView android:id="@+id/txtProbs"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:fontFamily="monospace" android:textSize="12sp"
+                android:layout_marginTop="8dp" android:textColor="@color/on_surface" />
+
+            <TextView android:id="@+id/txtLatency"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="13sp" android:textColor="@color/muted"
+                android:layout_marginTop="18dp" />
+
+            <TextView android:id="@+id/txtStatus"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="12sp" android:textColor="@color/muted"
+                android:layout_marginTop="2dp" />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/four_classes_only" android:textSize="12sp"
+                android:textColor="@color/muted" android:layout_marginTop="18dp" />
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnBack"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent" android:layout_height="50dp"
+                android:text="Done" android:layout_marginTop="22dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

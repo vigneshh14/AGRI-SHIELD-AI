@@ -1,0 +1,211 @@
+{
+  "tag": "[DESK]",
+  "external_dataset": "PlantDoc (Singh et al. 2020), CC BY 4.0",
+  "train_dataset": "PlantVillage (Mohanty et al. 2016)",
+  "note": "PlantDoc was never trained on. Both its folders form one external test set.",
+  "label_mapping": {
+    "Tomato Early blight leaf": "Tomato___Early_blight",
+    "Tomato leaf late blight": "Tomato___Late_blight",
+    "Tomato Septoria leaf spot": "Tomato___Septoria_leaf_spot",
+    "Tomato leaf": "Tomato___healthy"
+  },
+  "excluded_classes": {
+    "Tomato leaf bacterial spot": 110,
+    "Tomato leaf mosaic virus": 54,
+    "Tomato leaf yellow virus": 76,
+    "Tomato mold leaf": 91,
+    "Tomato two spotted spider mites leaf": 2
+  },
+  "excluded_image_total": 333,
+  "evaluated_images": 413,
+  "unreadable_images": 0,
+  "classes": [
+    "Tomato___Early_blight",
+    "Tomato___Late_blight",
+    "Tomato___Septoria_leaf_spot",
+    "Tomato___healthy"
+  ],
+  "metrics": {
+    "accuracy": 0.3414043583535109,
+    "macro_precision": 0.3639445713648901,
+    "macro_recall": 0.32540973124582395,
+    "macro_f1": 0.278199209992941,
+    "per_class_precision": [
+      0.2727,
+      0.3386,
+      0.4808,
+      0.3636
+    ],
+    "per_class_recall": [
+      0.3068,
+      0.7658,
+      0.1656,
+      0.0635
+    ],
+    "per_class_f1": [
+      0.2888,
+      0.4696,
+      0.2463,
+      0.1081
+    ]
+  },
+  "confusion_matrix": [
+    [
+      27,
+      54,
+      5,
+      2
+    ],
+    [
+      20,
+      85,
+      4,
+      2
+    ],
+    [
+      43,
+      80,
+      25,
+      3
+    ],
+    [
+      9,
+      32,
+      18,
+      4
+    ]
+  ],
+  "mean_confidence": 0.8316,
+  "mean_confidence_when_wrong": 0.815,
+  "mean_confidence_when_right": 0.8638,
+  "selective_prediction": [
+    {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "accuracy_on_answered": 0.3414,
+      "selective_risk": 0.6586
+    },
+    {
+      "threshold": 0.5,
+      "coverage": 0.9709,
+      "accuracy_on_answered": 0.3416,
+      "selective_risk": 0.6584
+    },
+    {
+      "threshold": 0.6,
+      "coverage": 0.8741,
+      "accuracy_on_answered": 0.3546,
+      "selective_risk": 0.6454
+    },
+    {
+      "threshold": 0.7,
+      "coverage": 0.7942,
+      "accuracy_on_answered": 0.372,
+      "selective_risk": 0.628
+    },
+    {
+      "threshold": 0.8,
+      "coverage": 0.6877,
+      "accuracy_on_answered": 0.3803,
+      "selective_risk": 0.6197
+    },
+    {
+      "threshold": 0.9,
+      "coverage": 0.4891,
+      "accuracy_on_answered": 0.4109,
+      "selective_risk": 0.5891
+    },
+    {
+      "threshold": 0.95,
+      "coverage": 0.2663,
+      "accuracy_on_answered": 0.5273,
+      "selective_risk": 0.4727
+    }
+  ],
+  "primary_protocol_3class": {
+    "rationale": "PlantDoc has NO class named healthy. 'Tomato leaf' is the bare species form; mapping it to healthy is an inference, not an author statement. The primary protocol therefore uses only the three unambiguous disease mappings.",
+    "label_mapping": {
+      "Tomato Early blight leaf": "Tomato___Early_blight",
+      "Tomato leaf late blight": "Tomato___Late_blight",
+      "Tomato Septoria leaf spot": "Tomato___Septoria_leaf_spot"
+    },
+    "evaluated_images": 350,
+    "accuracy": 0.3914,
+    "macro_f1": 0.3629,
+    "per_class_precision": [
+      0.3,
+      0.3881,
+      0.7353
+    ],
+    "per_class_recall": [
+      0.3068,
+      0.7658,
+      0.1656
+    ],
+    "per_class_f1": [
+      0.3034,
+      0.5152,
+      0.2703
+    ],
+    "confusion_matrix": [
+      [
+        27,
+        54,
+        5,
+        2
+      ],
+      [
+        20,
+        85,
+        4,
+        2
+      ],
+      [
+        43,
+        80,
+        25,
+        3
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "mean_confidence_when_wrong": 0.8124,
+    "mean_confidence_when_right": 0.8644,
+    "selective_prediction": [
+      {
+        "threshold": 0.0,
+        "coverage": 1.0,
+        "accuracy_on_answered": 0.3914,
+        "selective_risk": 0.6086
+      },
+      {
+        "threshold": 0.7,
+        "coverage": 0.8,
+        "accuracy_on_answered": 0.425,
+        "selective_risk": 0.575
+      },
+      {
+        "threshold": 0.9,
+        "coverage": 0.4886,
+        "accuracy_on_answered": 0.4737,
+        "selective_risk": 0.5263
+      },
+      {
+        "threshold": 0.95,
+        "coverage": 0.2771,
+        "accuracy_on_answered": 0.5979,
+        "selective_risk": 0.4021
+      }
+    ]
+  },
+  "appendix_4class_original": {
+    "note": "original run, retained per audit requirement",
+    "accuracy": 0.3414043583535109,
+    "macro_f1": 0.278199209992941,
+    "assumption": "'Tomato leaf' treated as healthy"
+  }
+}

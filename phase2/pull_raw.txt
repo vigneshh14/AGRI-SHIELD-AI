@@ -1,0 +1,42 @@
+AGRI-SHIELD AI - PULL RESULTS 
+Generated: 31-10-2026 11:49:44.99 
+ 
+List of devices attached
+
+ 
+===== RADIO STATE AT PULL TIME ===== 
+airplane_mode_on: 
+adb.exe: no devices/emulators found
+wifi_on: 
+adb.exe: no devices/emulators found
+mobile_data: 
+adb.exe: no devices/emulators found
+connectivity summary: 
+adb.exe: no devices/emulators found
+ 
+===== WHAT IS ON THE PHONE ===== 
+adb.exe: no devices/emulators found
+ 
+===== PULLING ===== 
+adb: error: failed to get feature set: no devices/emulators found
+adb: error: failed to get feature set: no devices/emulators found
+adb: error: failed to get feature set: no devices/emulators found
+ 
+===== BATTERY / THERMAL AT PULL TIME ===== 
+adb.exe: no devices/emulators found
+ 
+===== WHAT LANDED LOCALLY ===== 
+ Volume in drive C is Windows-SSD
+ Volume Serial Number is 9483-9CD1
+
+ Directory of C:\Users\VIGNESH\Documents\AGRI_SHIELD_AI\benchmarks
+
+31-10-2026  11:09 AM    <DIR>          .
+31-10-2026  11:43 AM    <DIR>          ..
+31-10-2026  11:09 AM             6,624 device_sysinfo.txt
+30-10-2026  08:29 PM               333 results_arm.md
+30-10-2026  08:32 PM             1,017 results_desk.md
+               3 File(s)          7,974 bytes
+               2 Dir(s)  64,213,475,328 bytes free
+ 
+===== COMPLETE ===== 

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AGRI-SHIELD AI</string>
+    <string name="subtitle">Offline Intelligent Crop Disease Detection</string>
+    <string name="select_image">Select Image</string>
+    <string name="capture_photo">Capture Photo</string>
+    <string name="about_project">About Project</string>
+    <string name="offline_ready">Offline — no network permission</string>
+    <string name="run_detection">Run Detection</string>
+    <string name="choose_again">Choose Another</string>
+
+    <string name="not_a_diagnosis">AI prediction only — not a confirmed plant disease diagnosis.</string>
+    <string name="four_classes_only">This model recognises four tomato leaf classes only. Anything else — another crop, another disease, or a non-leaf image — will still produce one of these four labels, and that output is meaningless.</string>
+    <string name="low_confidence">The model is not confident about this image. Treat the result as unreliable.</string>
+    <string name="crop_warning">Much of this photograph was outside the centre square the model sees. Any symptom near the edges was cropped away. Re-shoot with the leaf centred and filling the frame.</string>
+
+    <string name="about_body">AGRI-SHIELD AI\n\nArchitecture: MobileNetV2, 4-class tomato leaf classifier\nInput: 1 x 3 x 96 x 96, RGB, NCHW, float32\nRuntime: ExecuTorch 1.5.1, XNNPACK backend\nExecution: entirely on-device\n\nSupported classes:\n  • Tomato Early Blight\n  • Tomato Late Blight\n  • Tomato Septoria Leaf Spot\n  • Healthy Tomato Leaf\n\nOffline by construction: this application declares no INTERNET permission, so it cannot contact a network even if asked to.\n\nKnown limitation: the classifier was trained on laboratory photographs of detached leaves against uniform backgrounds. On real-world field images an external evaluation measured 0.3914 accuracy against 0.9562 in-domain. Predictions on field photographs should be treated with corresponding caution.\n\nNo pesticide, dosage or treatment advice is provided. The project knowledge base currently holds zero source-verified chemical intervention records.\n\nDeveloped for the Bharat AI-SoC Challenge 2026–27.</string>
+</resources>

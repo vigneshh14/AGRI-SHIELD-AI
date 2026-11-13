@@ -1,0 +1,22 @@
+{
+  "audited": "runs/tomato4_scratch/best.pt",
+  "split_groups": 3175,
+  "split_violations": 0,
+  "test_images": 936,
+  "recomputed_accuracy": 0.9562,
+  "stored_accuracy": 0.9561965811965812,
+  "recomputed_macro_f1_independent": 0.9506,
+  "stored_macro_f1": 0.9506470289200442,
+  "classes": [
+    "Tomato___Early_blight",
+    "Tomato___Late_blight",
+    "Tomato___Septoria_leaf_spot",
+    "Tomato___healthy"
+  ],
+  "pte_mb": 8.891,
+  "pte_accuracy_on_sample": 0.8167,
+  "pte_vs_pytorch_argmax_agreement": "60/60",
+  "pte_vs_pytorch_max_logit_diff": 3.4570693969726562e-06,
+  "tolerance": 0.001,
+  "failures": []
+}

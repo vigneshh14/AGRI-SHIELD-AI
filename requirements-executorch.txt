@@ -1,0 +1,4 @@
+# Environment B — ExecuTorch export/runtime. Keep separate from Environment A:
+# executorch pins its own torch build and the two will fight.
+executorch
+torchvision
