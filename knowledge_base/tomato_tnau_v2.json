@@ -1,0 +1,90 @@
+{
+  "schema_version": "2.0",
+  "generated": "2026-11-13",
+  "verification_method": "Each TNAU page was read twice on 2026-11-13 with independently worded queries; every chemical row below matched in both reads. Doses are copied as printed, including the unit (per acre vs per hectare differs by page).",
+  "interval_policy": "TNAU pages for these diseases give no spray interval and no number of sprays. The system must NOT state an interval; it tells the farmer to confirm timing with the local agriculture extension officer and the product label.",
+  "tamil_review_status": "UNREVIEWED - disease names in Tamil need a native-speaker check before the demo",
+  "records": [
+    {
+      "id": "tomato_healthy",
+      "class_label": "Tomato___healthy",
+      "crop": "Tomato", "crop_ta": "தக்காளி",
+      "disease": "Healthy", "disease_ta": "ஆரோக்கியமான இலை",
+      "pathogen": null,
+      "symptoms_en": ["No lesions, spots, yellowing or curling visible on the leaf"],
+      "cultural_en": ["Continue regular field scouting", "Keep spacing and staking so foliage dries quickly"],
+      "biological": [],
+      "chemicals": [],
+      "sourced": true,
+      "source_institution": "No chemical or pathogen claim made",
+      "source_url": null,
+      "verified_on": "2026-11-13"
+    },
+    {
+      "id": "tomato_early_blight",
+      "class_label": "Tomato___Early_blight",
+      "crop": "Tomato", "crop_ta": "தக்காளி",
+      "disease": "Early Blight", "disease_ta": "முன் கருகல் நோய்",
+      "pathogen": "Alternaria solani",
+      "symptoms_en": ["Brown spots with concentric rings in a bull's-eye pattern with a yellow margin on leaves", "Fruit infected at the calyx or stem end shows brown concentric rings"],
+      "cultural_en": ["Remove and destroy crop debris", "Practise crop rotation"],
+      "biological": [{"agent": "Trichoderma asperellum", "use": "Seed treatment", "dose": "4 g/kg of seed"}],
+      "chemicals": [
+        {"active": "Iprodione 50% WP", "dose": "600 g/ac"},
+        {"active": "Azoxystrobin 23% SC", "dose": "200 ml/ac"},
+        {"active": "Mancozeb 35% SC", "dose": "1 kg/ac"},
+        {"active": "Metiram 70% WG", "dose": "1.0 kg/ac"},
+        {"active": "Pyraclostrobin 20% WG", "dose": "200 g/ac"},
+        {"active": "Zineb 75% WP", "dose": "800 g/ac"},
+        {"active": "Azoxystrobin 18.2% + Difenoconazole 11.4% SC", "dose": "200 ml/ac"},
+        {"active": "Metiram 55% + Pyraclostrobin 5% WG", "dose": "600 g/ac"},
+        {"active": "Tebuconazole 50% + Trifloxystrobin 25% WG", "dose": "140 g/ac"}
+      ],
+      "chemical_choice_note": "Alternatives - use ONE product, not all.",
+      "sourced": true,
+      "source_institution": "TNAU Agritech Portal, Crop Protection - Tomato: Early Blight",
+      "source_url": "https://agritech.tnau.ac.in/crop_protection/tomato_diseases_2.html",
+      "verified_on": "2026-11-13"
+    },
+    {
+      "id": "tomato_late_blight",
+      "class_label": "Tomato___Late_blight",
+      "crop": "Tomato", "crop_ta": "தக்காளி",
+      "disease": "Late Blight", "disease_ta": "பின் கருகல் நோய்",
+      "pathogen": "Phytophthora infestans",
+      "symptoms_en": ["Water-soaked black lesions on leaves and stems that expand rapidly until the whole leaf dies", "White sporulation on leaves", "Dark brown lesions on fruit followed by soft rot"],
+      "cultural_en": ["Provide proper drainage", "Practise crop rotation"],
+      "biological": [{"agent": "Trichoderma asperellum (viride)", "use": "Soil application", "dose": "1.0 kg/ac"}],
+      "chemicals": [
+        {"active": "Cyazofamid 34.5% SC", "dose": "80 ml/ac"},
+        {"active": "Azoxystrobin 23% SC", "dose": "200 ml/ac"},
+        {"active": "Mancozeb 35% SC", "dose": "1000 g/ac"},
+        {"active": "Zineb 75% WP", "dose": "800 g/ac"},
+        {"active": "Azoxystrobin 18.2% + Difenoconazole 11.4% SC", "dose": "200 ml/ac"}
+      ],
+      "chemical_choice_note": "Alternatives - use ONE product, not all.",
+      "sourced": true,
+      "source_institution": "TNAU Agritech Portal, Crop Protection - Tomato: Late Blight",
+      "source_url": "https://agritech.tnau.ac.in/crop_protection/tomato_diseases_8.html",
+      "verified_on": "2026-11-13"
+    },
+    {
+      "id": "tomato_septoria_leaf_spot",
+      "class_label": "Tomato___Septoria_leaf_spot",
+      "crop": "Tomato", "crop_ta": "தக்காளி",
+      "disease": "Septoria Leaf Spot", "disease_ta": "செப்டோரியா இலைப் புள்ளி நோய்",
+      "pathogen": "Septoria lycopersici",
+      "symptoms_en": ["Small round to irregular spots with a grey centre and dark margin on leaves", "Spots merge and blight the leaves, which can cause complete defoliation"],
+      "cultural_en": ["Remove and destroy affected plant parts"],
+      "biological": [{"agent": "Trichoderma asperellum", "use": "Seed treatment", "dose": "4 g/kg of seed"}],
+      "chemicals": [
+        {"active": "Fluxapyroxad 250 g/l + Pyraclostrobin 250 g/l SC", "dose": "200-250 ml/ha"}
+      ],
+      "chemical_choice_note": "Dose is per HECTARE on the source page (1 ha = 2.47 ac).",
+      "sourced": true,
+      "source_institution": "TNAU Agritech Portal, Crop Protection - Tomato: Septoria Leaf Spot",
+      "source_url": "https://agritech.tnau.ac.in/crop_protection/tomato_diseases_4.html",
+      "verified_on": "2026-11-13"
+    }
+  ]
+}
