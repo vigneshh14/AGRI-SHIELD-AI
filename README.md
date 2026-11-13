@@ -1,55 +1,80 @@
-# AGRI-SHIELD AI: Phase 1 finishing kit (13 Nov 2026)
+# AGRI-SHIELD AI
 
-Drop-in pieces for the existing AGRI-SHIELD AI project. Built in a cloud workspace
-with no access to your laptop or GitHub, so it is **additive**: nothing here
-replaces your frozen Phase 1/2/3 artifacts.
+**Offline crop-disease detection and farmer advisory on an Arm phone, with Llama 3.2 1B running through ExecuTorch.**
 
-| Path | What it is | Status |
-| --- | --- | --- |
-| `docs/PHASE1_PLAN_13_to_21_NOV.md` | Day-by-day plan to submission | — |
-| `docs/GATE1_LLAMA_ON_PHONE.md` | Llama 3.2 1B on the phone via ExecuTorch, no export, no NDK | Steps written; **not yet run on the phone** |
-| `knowledge_base/tomato_tnau_v2.json` | Early blight, late blight, Septoria, healthy, with TNAU doses and URLs | Each page read twice on 13 Nov; all rows matched |
-| `android/advisory/AdvisoryGate.kt` | Confidence gate, Llama prompt, output guard, fallback | Compiled and tested on JVM [DESK] |
-| `android/advisory/LlamaAdvisoryEngine.kt` | `LlmModule` wrapper (ExecuTorch 0.7–1.6 API subset) | Compiled against v1.6.0-signature stubs; **not yet run on Android** |
-| `android/advisory/KnowledgeBase.kt` | Generated from the JSON | Do not hand-edit |
-| `tests/` | 70 checks: gate, prompt-leak sweep, guard, engine end-to-end with a stub runtime | 70/70 pass |
-| `docs/REPORT_I8MM_CORRECTION.md` | Replacement text for the withdrawn I8MM claim | Re-check `/proc/cpuinfo` before pasting |
-| `docs/SUBMISSION_CHECKLIST.md` | Final gate before the form | — |
+Bharat AI-SoC Challenge 2026–27 · Problem Statement 1 · Solo entry: Vignesh S, M.E. VLSI Design,
+College of Engineering Guindy, Anna University.
 
-## Run the tests
+[![advisory-safety-tests](https://github.com/vigneshh14/AGRI-SHIELD-AI/actions/workflows/tests.yml/badge.svg)](https://github.com/vigneshh14/AGRI-SHIELD-AI/actions/workflows/tests.yml)
 
-Needs Java 17+ and a Kotlin compiler (`kotlinc`, or the one inside Android Studio):
+A farmer photographs a tomato leaf. The phone, in airplane mode, identifies the disease,
+retrieves the official treatment record, and explains it in plain language. No cloud, no
+network.
 
-```bash
-python tools/gen_kb_kotlin.py
-kotlinc android/advisory/*.kt tests/*.kt tests/stubs/*.kt -d out
-kotlin -cp out com.agrishield.advisory.AdvisoryGateTestKt   # expect: ALL 70 CHECKS PASSED
+```
+camera → MobileNet classifier (ExecuTorch, XNNPACK) → confidence gate
+   ├─ confident + sourced record → Llama 3.2 1B (ExecuTorch) explains → output guard → screen
+   │                                                     + dose table straight from TNAU record
+   └─ not confident / not sourced → abstain: "don't spray, retake photo / see extension officer"
 ```
 
-Do **not** copy `tests/stubs/` into the Android app. The real `LlmModule` comes from
-the `executorch-android` AAR.
+## Mandatory requirements
 
-## Before merging, check
+| Requirement | How | Evidence |
+| --- | --- | --- |
+| Llama-family model owns the advisory | Llama 3.2 1B Instruct (SpinQuant INT4) writes the farmer-facing text | `android/advisory/LlamaAdvisoryEngine.kt` |
+| ExecuTorch is the runtime | `org.pytorch:executorch-android` `LlmModule`, XNNPACK | `benchmarks/results_arm.md` |
+| Runs on Arm, offline | Infinix NOTE 30 5G (MediaTek Dimensity 6080), airplane mode | demo video, `[ARM]` results |
+| Hosted on GitHub | this repository | — |
 
-- **Class labels.** The KB uses PlantVillage names (`Tomato___Early_blight`,
-  `Tomato___Late_blight`, `Tomato___Septoria_leaf_spot`, `Tomato___healthy`). They must
-  match your classifier's `class_names` exactly. Any class the model has that the KB
-  lacks abstains automatically, which is safe but should be a deliberate choice.
-- **Threshold.** `AdvisoryGate.DEFAULT_THRESHOLD = 0.80`. Set it to the value used in
-  your Python M6 module and the report, so the two agree.
-- **Old KB.** `tomato_tnau_v2.json` supersedes the 30 Oct file whose chemical lists
-  were empty. Keep the old one in history, not in the app.
+## Safety design (pesticide advice)
 
-## Design decisions to state in the report
+- **Doses never come from the language model.** They are shown from
+  `knowledge_base/tomato_tnau_v2.json`; each product traces to a TNAU Agritech page,
+  verified 13 Nov 2026.
+- **The prompt contains no chemical names or doses at all.** Llama explains the disease and
+  field practices only.
+- **Output guard:** if the model's text names any pesticide, any dose or any spray interval,
+  it's rejected and a fixed, clearly labelled fallback is shown.
+- **Abstain below the confidence threshold:** no chemical information is shown anywhere.
+- 70 automated checks (gate, prompt-leak sweep over every class × confidence, guard, engine)
+  run on every push; see the badge.
 
-- Llama writes the farmer-facing explanation. **Doses and product names come only from
-  the KB table**, never from model text. The guard rejects any model output that names
-  a chemical, a dose or a spray interval, and the UI then shows a deterministic fallback
-  labelled as such.
-- TNAU gives **no spray interval** for these three diseases, so the app says so and
-  refers the farmer to the extension officer and the product label.
-- Septoria's dose is **per hectare** on the source page, unlike the others, which are
-  **per acre**. Both are shown as printed, not converted.
-- Advisory text is generated in English. Tamil covers the disease names and UI labels
-  from the KB. A 1B model writing Tamil pesticide guidance is a Phase 2 item, once it
-  can be evaluated.
+## Claim discipline
+
+Every number carries one tag: `[SIM]` simulated, `[DESK]` x86 laptop, `[ARM]` measured on
+the phone offline. Only `[ARM]` numbers support on-device claims, and they live only in
+`benchmarks/results_arm.md`.
+
+## Repository
+
+| Path | Contents |
+| --- | --- |
+| `android/advisory/` | Gate, prompt, guard (`AdvisoryGate.kt`), Llama engine, generated KB |
+| `knowledge_base/` | TNAU-sourced records (source of truth) |
+| `tools/gen_kb_kotlin.py` | Regenerates `KnowledgeBase.kt` from the JSON |
+| `tests/` | JVM tests + ExecuTorch API stubs (test-only) |
+| `scripts/get_llama_model.ps1` | Downloads and hash-verifies the Llama model + tokenizer |
+| `benchmarks/results_arm.md` | On-device measurements |
+| `docs/` | Llama-on-phone runbook, plan, checklist, demo script, report corrections |
+
+## Get the model (not stored in Git: 1.1 GB)
+
+```powershell
+.\scripts\get_llama_model.ps1                      # download + verify SHA256
+.\scripts\get_llama_model.ps1 -Push -Package <applicationId>   # also adb-push to the phone
+```
+
+Source: [executorch-community/Llama-3.2-1B-Instruct-SpinQuant_INT4_EO8-ET](https://huggingface.co/executorch-community/Llama-3.2-1B-Instruct-SpinQuant_INT4_EO8-ET).
+Llama 3.2 is subject to Meta's Llama 3.2 Community License.
+
+## Status (Phase 1, due 23 Nov 2026)
+
+Being completed. See `docs/PHASE1_PLAN_13_to_21_NOV.md` and `docs/SUBMISSION_CHECKLIST.md`.
+The vision pipeline, Android app and Phase 1 report are being merged into this repository.
+
+## Known limitations
+
+Tomato only (4 classes) in Phase 1; severity estimate is experimental; TNAU gives no spray
+interval for these diseases, so none is stated; Tamil strings await native-speaker review;
+the advisory text is generated in English.

@@ -15,6 +15,9 @@ good the classifier is. Do this before anything else.
 
 ## Step 1: Download (laptop, PowerShell)
 
+**Easiest:** from the repo root run `.\scripts\get_llama_model.ps1`. It downloads both files, resumes if
+interrupted, and checks them against the SHA256 values Hugging Face publishes. The manual steps follow.
+
 ```powershell
 mkdir $HOME\Documents\AGRI_SHIELD_AI\models\llama
 cd $HOME\Documents\AGRI_SHIELD_AI\models\llama
