@@ -1,0 +1,10 @@
+# Environment A — vision training. NEVER install executorch into this env.
+torch
+torchvision
+numpy
+pillow
+opencv-python
+scikit-learn
+pandas
+matplotlib
+tqdm

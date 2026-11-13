@@ -1,0 +1,73 @@
+AGRI-SHIELD AI - PHASE 2 ENVIRONMENT AUDIT 
+Generated: 31-10-2026 10:01:08.20 
+Project root: C:\Users\VIGNESH\Documents\AGRI_SHIELD_AI 
+ 
+===================================================== 
+SECTION 1 - LAPTOP TOOLCHAIN 
+===================================================== 
+[git] 
+INFO: Could not find files for the given pattern(s).
+'git' is not recognized as an internal or external command,
+operable program or batch file.
+ 
+[adb] 
+INFO: Could not find files for the given pattern(s).
+'adb' is not recognized as an internal or external command,
+operable program or batch file.
+ 
+[python] 
+C:\Users\VIGNESH\AppData\Local\Programs\Python\Python313\python.exe
+C:\Users\VIGNESH\AppData\Local\Microsoft\WindowsApps\python.exe
+Python 3.13.15
+ -V:3.13 *        C:\Users\VIGNESH\AppData\Local\Programs\Python\Python313\python.exe
+ 
+[java/jdk] 
+INFO: Could not find files for the given pattern(s).
+'java' is not recognized as an internal or external command,
+operable program or batch file.
+JAVA_HOME= 
+ 
+[android sdk/ndk] 
+ANDROID_HOME= 
+ANDROID_SDK_ROOT= 
+ANDROID_NDK_HOME= 
+no SDK at C:\Users\VIGNESH\AppData\Local\Android\Sdk 
+ 
+[cmake] 
+INFO: Could not find files for the given pattern(s).
+'cmake' is not recognized as an internal or external command,
+operable program or batch file.
+ 
+===================================================== 
+SECTION 2 - PROJECT PYTHON ENVIRONMENTS 
+===================================================== 
+env-executorch NOT PRESENT 
+ 
+env-vision NOT PRESENT 
+ 
+===================================================== 
+SECTION 3 - TRAINED MODEL ARTIFACTS 
+===================================================== 
+agrishield_tomato4.json
+agrishield_tomato4.pte
+ 
+ Volume in drive C is Windows-SSD
+ Volume Serial Number is 9483-9CD1
+
+ Directory of C:\Users\VIGNESH\Documents\AGRI_SHIELD_AI\models
+
+30-10-2026  11:28 PM         8,890,640 agrishield_tomato4.pte
+               1 File(s)      8,890,640 bytes
+               0 Dir(s)  64,536,145,920 bytes free
+SHA256 hash of models\agrishield_tomato4.pte:
+f57f5ec391f44b8add7fee57cd47e439e0ad17aaec5ce5d3e8aeaf1601037f4b
+CertUtil: -hashfile command completed successfully.
+ 
+===================================================== 
+SECTION 4 - PHONE VIA ADB 
+===================================================== 
+ADB NOT ON PATH - no phone inspection performed 
+Sections 4 contains NO measured phone data. 
+===================================================== 
+AUDIT COMPLETE 
+===================================================== 

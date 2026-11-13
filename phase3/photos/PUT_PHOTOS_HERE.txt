@@ -1,0 +1,14 @@
+Put real tomato leaf photographs in this folder.
+
+Shooting guidance (this materially affects the result — see
+PHASE3_BLOCKERS.md B1 for why):
+
+  1. One leaf, centred, filling the frame.
+  2. Square (1:1) if your camera offers it. Otherwise 4:3. Avoid 16:9.
+  3. Plain background - paper or a table.
+  4. Even daylight. No flash, no harsh shadow on the lesion.
+  5. In focus, lesions clearly visible.
+  6. Name files by class, e.g. early_blight_01.jpg, healthy_03.jpg
+
+Target: 5 each of healthy / early blight / late blight / septoria leaf spot.
+Fewer is fine. Even one satisfies the milestone.

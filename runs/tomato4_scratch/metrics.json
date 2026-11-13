@@ -1,0 +1,254 @@
+{
+  "tag": "[DESK]",
+  "SMOKE_TEST_ONLY": false,
+  "pretrained_backbone": false,
+  "methodology": "trained from random initialisation; NO ImageNet transfer learning",
+  "warning": "No ImageNet pretraining. These are real trained-model numbers, but a pretrained backbone would normally score higher and converge sooner. State the methodology whenever quoting these figures.",
+  "classes": [
+    "Tomato___Early_blight",
+    "Tomato___Late_blight",
+    "Tomato___Septoria_leaf_spot",
+    "Tomato___healthy"
+  ],
+  "epochs_requested": 22,
+  "epochs_completed": 22,
+  "stopped_early": false,
+  "img_size": 96,
+  "batch": 32,
+  "train_images": 4390,
+  "val_images": 945,
+  "test_images": 936,
+  "test_metrics": {
+    "accuracy": 0.9561965811965812,
+    "macro_precision": 0.9560880433983536,
+    "macro_recall": 0.9464311523135053,
+    "macro_f1": 0.9506470289200442,
+    "per_class_precision": [
+      0.9478,
+      0.9381,
+      0.9591,
+      0.9793
+    ],
+    "per_class_recall": [
+      0.8581,
+      0.9545,
+      0.9773,
+      0.9958
+    ],
+    "per_class_f1": [
+      0.9007,
+      0.9463,
+      0.9681,
+      0.9875
+    ]
+  },
+  "evaluated_checkpoint": "best.pt (best validation epoch)",
+  "test_confusion_matrix": [
+    [
+      127,
+      15,
+      5,
+      1
+    ],
+    [
+      7,
+      273,
+      6,
+      0
+    ],
+    [
+      0,
+      2,
+      258,
+      4
+    ],
+    [
+      0,
+      1,
+      0,
+      237
+    ]
+  ],
+  "mean_test_confidence": 0.9242,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.1323,
+      "train_acc": 0.51,
+      "val_acc": 0.6275,
+      "val_macro_f1": 0.6205,
+      "secs": 68.3
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.8893,
+      "train_acc": 0.6585,
+      "val_acc": 0.7471,
+      "val_macro_f1": 0.7299,
+      "secs": 137.0
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.7646,
+      "train_acc": 0.736,
+      "val_acc": 0.763,
+      "val_macro_f1": 0.7483,
+      "secs": 204.4
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.6888,
+      "train_acc": 0.7681,
+      "val_acc": 0.7704,
+      "val_macro_f1": 0.7454,
+      "secs": 270.3
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.6687,
+      "train_acc": 0.787,
+      "val_acc": 0.8762,
+      "val_macro_f1": 0.8516,
+      "secs": 337.5
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.6277,
+      "train_acc": 0.8052,
+      "val_acc": 0.8635,
+      "val_macro_f1": 0.8553,
+      "secs": 404.4
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.5535,
+      "train_acc": 0.8412,
+      "val_acc": 0.8667,
+      "val_macro_f1": 0.8512,
+      "secs": 472.2
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.5559,
+      "train_acc": 0.8383,
+      "val_acc": 0.8804,
+      "val_macro_f1": 0.8632,
+      "secs": 536.9
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.5041,
+      "train_acc": 0.8667,
+      "val_acc": 0.9164,
+      "val_macro_f1": 0.9046,
+      "secs": 76.7
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.5142,
+      "train_acc": 0.861,
+      "val_acc": 0.9037,
+      "val_macro_f1": 0.8921,
+      "secs": 140.7
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.4854,
+      "train_acc": 0.8756,
+      "val_acc": 0.8899,
+      "val_macro_f1": 0.8699,
+      "secs": 205.8
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.4477,
+      "train_acc": 0.8863,
+      "val_acc": 0.9122,
+      "val_macro_f1": 0.8996,
+      "secs": 269.1
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.4621,
+      "train_acc": 0.8829,
+      "val_acc": 0.9386,
+      "val_macro_f1": 0.9323,
+      "secs": 331.5
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.4336,
+      "train_acc": 0.9005,
+      "val_acc": 0.9354,
+      "val_macro_f1": 0.9283,
+      "secs": 393.9
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.405,
+      "train_acc": 0.9096,
+      "val_acc": 0.9153,
+      "val_macro_f1": 0.9064,
+      "secs": 456.7
+    },
+    {
+      "epoch": 16,
+      "train_loss": 0.3917,
+      "train_acc": 0.9185,
+      "val_acc": 0.9386,
+      "val_macro_f1": 0.9331,
+      "secs": 63.6
+    },
+    {
+      "epoch": 17,
+      "train_loss": 0.3786,
+      "train_acc": 0.9244,
+      "val_acc": 0.9217,
+      "val_macro_f1": 0.9112,
+      "secs": 130.8
+    },
+    {
+      "epoch": 18,
+      "train_loss": 0.3597,
+      "train_acc": 0.9319,
+      "val_acc": 0.9397,
+      "val_macro_f1": 0.9337,
+      "secs": 195.0
+    },
+    {
+      "epoch": 19,
+      "train_loss": 0.339,
+      "train_acc": 0.9403,
+      "val_acc": 0.9376,
+      "val_macro_f1": 0.9317,
+      "secs": 261.5
+    },
+    {
+      "epoch": 20,
+      "train_loss": 0.3357,
+      "train_acc": 0.9467,
+      "val_acc": 0.9545,
+      "val_macro_f1": 0.9506,
+      "secs": 325.8
+    },
+    {
+      "epoch": 21,
+      "train_loss": 0.3252,
+      "train_acc": 0.9462,
+      "val_acc": 0.9598,
+      "val_macro_f1": 0.956,
+      "secs": 391.8
+    },
+    {
+      "epoch": 22,
+      "train_loss": 0.303,
+      "train_acc": 0.9556,
+      "val_acc": 0.9587,
+      "val_macro_f1": 0.9551,
+      "secs": 456.7
+    }
+  ],
+  "total_seconds_FINAL_SEGMENT_ONLY": 5.8,
+  "training_wall_clock_seconds_sum_of_segments": 1450.3,
+  "timing_note": "Training was resumed across several processes; the timer restarts each run. The sum of per-segment wall clock is a LOWER bound on total training time and excludes gaps between runs. Reported for transparency, not as a benchmark."
+}

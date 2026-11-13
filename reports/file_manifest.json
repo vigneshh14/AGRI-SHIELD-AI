@@ -1,0 +1,302 @@
+{
+  "generated": "2026-10-31",
+  "archive_file_count": 60,
+  "checksummed_file_count": 58,
+  "total_bytes": 10362424,
+  "self_excluded": [
+    "FILE_MANIFEST.md",
+    "reports/file_manifest.json"
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 411,
+      "sha256": "a273a109afedc6834907a3115b77bfb3569283ca72a44623dec4d809cfeb4218"
+    },
+    {
+      "path": "CLAUDE.md",
+      "bytes": 4061,
+      "sha256": "b2207a8b8576797a8b578e5da137a5487f9594c8b436f5b7d2dde909f83de716"
+    },
+    {
+      "path": "CONSISTENCY_AUDIT.md",
+      "bytes": 11186,
+      "sha256": "ae4961e4ec265a8941e53333436f8b2f8e4b5275633c61a2036d65fd2269da5e"
+    },
+    {
+      "path": "FINAL_AUDIT.md",
+      "bytes": 6340,
+      "sha256": "f44a76bc12f519dc7dfeb808ed55b0a04cd43d494c5dd1610c1d6e2afa18ba21"
+    },
+    {
+      "path": "IMPLEMENTATION_LOG.md",
+      "bytes": 1756,
+      "sha256": "bcbc16fa94096e2e920ccc3a1a5b66cbc458f562a0a6d190149f07cedf1407fe"
+    },
+    {
+      "path": "INSTALL_NEXT.md",
+      "bytes": 3994,
+      "sha256": "481155093f7b12cf229373b2bb43e2d4d6a13895b8adea46a877860aca5226a7"
+    },
+    {
+      "path": "PHASE1_COMPLIANCE.md",
+      "bytes": 1652,
+      "sha256": "01e8f2a4c0ce6dc63148decafd09af566238ff523257d679533a91c0ff8d42b1"
+    },
+    {
+      "path": "PHASE1_DEMO_SCRIPT.md",
+      "bytes": 1910,
+      "sha256": "f2afacc28ff00c4a6fd77c780436dc61eefb1109a844f07aa1013577572c6187"
+    },
+    {
+      "path": "PHASE1_REPORT.md",
+      "bytes": 22006,
+      "sha256": "9ae3173efaafcd785406a2c0b898b2729be9cddcee90e9d39f7725656db2bd11"
+    },
+    {
+      "path": "PHASE1_RESULTS.md",
+      "bytes": 2347,
+      "sha256": "005156c1400e4f2746aea35e4418322d92b58b11cc24a21701a3db16b22d1475"
+    },
+    {
+      "path": "PHASE1_SUBMISSION_CHECKLIST.md",
+      "bytes": 1617,
+      "sha256": "90e07c0c53f8dac1f01eb86fe5f660d48dccadb456cc8d5d644d4f3926ba06da"
+    },
+    {
+      "path": "PROJECT_PROGRESS.md",
+      "bytes": 6397,
+      "sha256": "3f86f9f722418c8dd48028a99faffe7aee7aae786a47c4eb7fea10f73aea6f72"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5717,
+      "sha256": "f5bbdb9bacf28768e07c8ff4f839d602879dfa9c0a6b93ea217f48eb45c5da15"
+    },
+    {
+      "path": "REFERENCES.md",
+      "bytes": 2391,
+      "sha256": "430aad8ffdc9d5ab628bc9c7972674301194076712e6c86f6739881c3da65cbb"
+    },
+    {
+      "path": "USER_ACTIONS.md",
+      "bytes": 2655,
+      "sha256": "710446e17cf710e165e608643e4a76d614d6e4f167709d0df203cba0057c3209"
+    },
+    {
+      "path": "VERIFICATION_REPORT.md",
+      "bytes": 4384,
+      "sha256": "3bbbecea9d0bbdee6b64e441e0615beb0595a2421d09da3cce4b154a970f4289"
+    },
+    {
+      "path": "application/app.py",
+      "bytes": 12671,
+      "sha256": "3698bda0bcfe28e9dbd87d040081f98e0fd95da04124d5cb892cd587efabdf72"
+    },
+    {
+      "path": "audit_windows.bat",
+      "bytes": 2290,
+      "sha256": "ea00b475cf8368ad960a8aaad31a99f1158339a797aaf4ed88eab36f6db80eb6"
+    },
+    {
+      "path": "benchmarks/results_arm.md",
+      "bytes": 333,
+      "sha256": "bd911f07fe097cad2f9829e8d0e89a671cdcfb02e15363f55a95316ac68b8a58"
+    },
+    {
+      "path": "benchmarks/results_desk.md",
+      "bytes": 1017,
+      "sha256": "a1dea23d25b98a528d16ef7ab77539da167f2b31855af3564c1f4966692916a0"
+    },
+    {
+      "path": "datasets/metadata/split_summary.json",
+      "bytes": 1131,
+      "sha256": "6584a74a3fd1013400f16a10aaed79527c804d99b70cfd85a3056f79867cc4e3"
+    },
+    {
+      "path": "datasets/metadata/splits.csv",
+      "bytes": 888530,
+      "sha256": "01610ba556ff9804e96ba76039c8708dbd1041ad51c44df0b33d3ec7a2349290"
+    },
+    {
+      "path": "deployment/arm/ANDROID_DEPLOYMENT.md",
+      "bytes": 5915,
+      "sha256": "1cee35f7e388bcf6c6aa8535d4878b2f67ffd10f5ad72cf3f52a041bf31d0325"
+    },
+    {
+      "path": "disease_detection/evaluation/audit.py",
+      "bytes": 8067,
+      "sha256": "88a5e1cd9a23bc22b093ba7c5dba4bfe6bbb17dc9c265a0b5354c13823c73bae"
+    },
+    {
+      "path": "disease_detection/evaluation/external_eval.py",
+      "bytes": 7364,
+      "sha256": "b40bd98a4468766f620c8e32769c11486c580ad9ce6a24d45c7de5b8603fcd9c"
+    },
+    {
+      "path": "disease_detection/inference/export_classifier.py",
+      "bytes": 2070,
+      "sha256": "6aea0374a083443fd011b0aa9af5e1db51437618991336bd64a5b06b1c951f26"
+    },
+    {
+      "path": "disease_detection/inference/predict.py",
+      "bytes": 5444,
+      "sha256": "c2e8bd5656475e7502cc4998b6c22c79f00591c5b3b31962f7d07c9953aaf03c"
+    },
+    {
+      "path": "disease_detection/training/prepare_splits.py",
+      "bytes": 9577,
+      "sha256": "8ef5a1c6d98a7955bcdb8175ba85638d08783e3198451830c20818bcde776c23"
+    },
+    {
+      "path": "disease_detection/training/runs/smoke/confusion_matrix.png",
+      "bytes": 43453,
+      "sha256": "a83815ce7540231e7367224e69fbd8075a10333300fd4e96da167b937b6df5e6"
+    },
+    {
+      "path": "disease_detection/training/runs/smoke/metrics.json",
+      "bytes": 1428,
+      "sha256": "9951fa2669311c4424fe36c86331349e62003b32c0001d8c42942e126b64cd84"
+    },
+    {
+      "path": "disease_detection/training/runs/smoke/training_curves.png",
+      "bytes": 67391,
+      "sha256": "22d04220a20e2e02b8ccaac9862c4d4283c8c8337482027b0c918ca3b2a7e636"
+    },
+    {
+      "path": "disease_detection/training/train.py",
+      "bytes": 14278,
+      "sha256": "27eabbc4092507a29d647907d7b84033b7bde0d2f55dc2289ad3b66b2da5c0c4"
+    },
+    {
+      "path": "documentation/executorch_setup.md",
+      "bytes": 3145,
+      "sha256": "960567e7117b0d55a681decd3cd68102bd550f2713a17d1795b5d95df3427186"
+    },
+    {
+      "path": "environment_audit.md",
+      "bytes": 2741,
+      "sha256": "4f71af53ec446c1d2e844fb3d2975a7b92bbdc6b2b66a7f8602bc8bee1c61ce6"
+    },
+    {
+      "path": "environment_audit_raw.txt",
+      "bytes": 2403,
+      "sha256": "1df130c137d3ffb09942c2dcd884dfac1de12bfa0c21646607b1c1fd68c29d62"
+    },
+    {
+      "path": "knowledge_base/diseases.json",
+      "bytes": 11475,
+      "sha256": "b32639f1f7568d3ca2794e70ebce439dc9f1f4c71e4be2a24b8d60dc1766d430"
+    },
+    {
+      "path": "knowledge_base/retrieval.py",
+      "bytes": 9145,
+      "sha256": "0d647ac5389ae45a7019eceb0acd52279a166551273f06316519a5b716d24780"
+    },
+    {
+      "path": "llama_advisory/advisor.py",
+      "bytes": 14107,
+      "sha256": "1514bfeb73b0a6c6eb6f1fa11e9918ce7d2438b8c180758ecf9c105d6b79154a"
+    },
+    {
+      "path": "llama_advisory/model/README.txt",
+      "bytes": 66,
+      "sha256": "34e9a24ab3af4473371c6cf32142779778e628bc417ffe7d73c26d9de1d61395"
+    },
+    {
+      "path": "llama_advisory/prompts/advisory_en.txt",
+      "bytes": 789,
+      "sha256": "2a037ec7564792f63087053b1b90be03d9887ee49a1c8cbd72ab4f01bd47dfa7"
+    },
+    {
+      "path": "llama_advisory/prompts/advisory_ta.txt",
+      "bytes": 1893,
+      "sha256": "9ecea4b645bff8cd496def14c52ec1ab0cf2fe8e668535261cb926e92550f1b3"
+    },
+    {
+      "path": "models/agrishield_tomato4.json",
+      "bytes": 371,
+      "sha256": "3a295c21de032f71d656317a71bbe918b33c6b09b1b4ad3e086bdb43cc52158c"
+    },
+    {
+      "path": "models/agrishield_tomato4.pte",
+      "bytes": 8890640,
+      "sha256": "f57f5ec391f44b8add7fee57cd47e439e0ad17aaec5ce5d3e8aeaf1601037f4b"
+    },
+    {
+      "path": "probe_phone.bat",
+      "bytes": 1939,
+      "sha256": "5c6d2e79ff1b896f37af5e10d0f65ed1be6cb3e8e2c6a049f7cfc54e748f2d44"
+    },
+    {
+      "path": "reports/PHASE1_REPORT.pdf",
+      "bytes": 93012,
+      "sha256": "8f345d4c09a8757687091e42e0b3274f57c00e7c33f16245d509bc354ea26a1e"
+    },
+    {
+      "path": "reports/audit.json",
+      "bytes": 613,
+      "sha256": "04baed08668d6d0515d235cce59c556bd52fdc155de869f6cb5add25862425e3"
+    },
+    {
+      "path": "reports/build_final.py",
+      "bytes": 34477,
+      "sha256": "5d9c3fd23bff5db469bcca36a86cd47b0a5a4228da50ac1df2e8cbadff0a3290"
+    },
+    {
+      "path": "reports/consistency_check.py",
+      "bytes": 4803,
+      "sha256": "5c3a464c69d9cfe972dc36fd86142d047b6edfb99c074b33adfee0eea4e2c9e7"
+    },
+    {
+      "path": "reports/external_plantdoc.json",
+      "bytes": 4603,
+      "sha256": "9a9d454a57a4631d2e0471c7ca78b32dfdcf21e5ecdd5917c784edd986fb959d"
+    },
+    {
+      "path": "requirements-executorch.txt",
+      "bytes": 166,
+      "sha256": "c71b53b3c069018501291229e8ea18f5e17c522484640f21435df9b452380098"
+    },
+    {
+      "path": "requirements-vision.txt",
+      "bytes": 158,
+      "sha256": "18d37b444cc130e567db7b2c44ebe9ba7fd2682617d9a3c541c4c9e78f6c5dfd"
+    },
+    {
+      "path": "runs/tomato4_scratch/confusion_matrix.png",
+      "bytes": 50354,
+      "sha256": "f2977deea95dc206035846861071778a6d64d7b846c9bfcd55599c2a0de249e9"
+    },
+    {
+      "path": "runs/tomato4_scratch/metrics.json",
+      "bytes": 5369,
+      "sha256": "d2759182dff6fcd091ed832cc6c34cb0d9ebf9dd6240aab0db9f7ce66adccd03"
+    },
+    {
+      "path": "runs/tomato4_scratch/training_curves.png",
+      "bytes": 64223,
+      "sha256": "3deec6705da4d67583859d888a3ef87ff37ba2a998d08c8bb6e8cb232a40b386"
+    },
+    {
+      "path": "scripts/export_hello.py",
+      "bytes": 2866,
+      "sha256": "63d1349d4ce46265aacd1b61d2258f1bd73c566c955cb211d06da1c6cef2e77b"
+    },
+    {
+      "path": "scripts/run_hello.py",
+      "bytes": 1806,
+      "sha256": "484614244c2e262a36139c0ec92c0ef44cdb4786488edfd86dd1a28393592d51"
+    },
+    {
+      "path": "severity_estimation/severity.py",
+      "bytes": 8248,
+      "sha256": "cb63726b6e921d9bdaefb81a782f4d3ebefc4bda7959ba4c1eb94365df215d90"
+    },
+    {
+      "path": "test_results.md",
+      "bytes": 3229,
+      "sha256": "441a747ad54ffc985c63ffa10eecad0a2896f1a397f7df333458202a867bfd5e"
+    }
+  ]
+}

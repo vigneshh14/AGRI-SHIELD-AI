@@ -1,0 +1,12 @@
+<resources>
+    <color name="leaf_900">#14361F</color>
+    <color name="leaf_700">#1F6032</color>
+    <color name="leaf_500">#2E8B57</color>
+    <color name="leaf_100">#E6F2EA</color>
+    <color name="soil_700">#5B4636</color>
+    <color name="amber_600">#C77700</color>
+    <color name="danger_600">#B3261E</color>
+    <color name="surface">#FFFBFE</color>
+    <color name="on_surface">#1C1B1F</color>
+    <color name="muted">#5F6368</color>
+</resources>

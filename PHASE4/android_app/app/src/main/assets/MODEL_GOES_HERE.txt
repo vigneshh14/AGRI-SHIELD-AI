@@ -1,0 +1,10 @@
+Copy the frozen trained model into THIS directory before building:
+
+  from:  C:\Users\VIGNESH\Documents\AGRI_SHIELD_AI\models\agrishield_tomato4.pte
+  to:    android_app/app/src/main/assets/agrishield_tomato4.pte
+
+It is deliberately not committed here: it is 8.9 MB, and the Phase 1 archive is
+the single authoritative copy. The app verifies its SHA-256 at startup and
+refuses to run on a mismatch:
+
+  f57f5ec391f44b8add7fee57cd47e439e0ad17aaec5ce5d3e8aeaf1601037f4b
