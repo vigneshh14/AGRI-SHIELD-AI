@@ -41,6 +41,11 @@ android {
     }
     kotlinOptions { jvmTarget = "17" }
     buildFeatures { viewBinding = true }
+
+    // The Llama advisory (gate, prompt, output guard, TNAU knowledge base, engine)
+    // lives once, at the repo root, where CI unit-tests it on every push. The app
+    // compiles that same source rather than a copy that could drift.
+    sourceSets["main"].java.srcDir("../../../android/advisory")
 }
 
 dependencies {

@@ -8,6 +8,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
+import com.agrishield.advisory.AdvisoryGate
+import com.agrishield.advisory.Decision
+import com.agrishield.advisory.KbRecord
 import org.agrishield.ai.databinding.ActivityResultBinding
 import org.agrishield.ai.preprocess.AgriShieldPreprocess
 
@@ -47,7 +50,8 @@ class ResultActivity : AppCompatActivity() {
             // Collection stops below STARTED and is cancelled on destroy, so a
             // late result can never touch a dead activity.
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                vm.state.collect { render(it) }
+                launch { vm.state.collect { render(it) } }
+                launch { vm.advisory.collect { renderAdvisory(it) } }
             }
         }
     }
@@ -114,6 +118,71 @@ class ResultActivity : AppCompatActivity() {
         b.txtStatus.text = "No prediction was produced."
         b.txtUncertain.visibility = View.GONE
         b.txtCropWarning.visibility = View.GONE
+    }
+
+    private fun renderAdvisory(a: ResultViewModel.AdvisoryState) {
+        when (a) {
+            is ResultViewModel.AdvisoryState.NotStarted -> {
+                b.txtAdvisory.text = ""
+                b.txtAdvisorySource.text = ""
+                b.txtTreatment.visibility = View.GONE
+            }
+            is ResultViewModel.AdvisoryState.ModelMissing -> {
+                b.txtAdvisory.text = getString(R.string.advisory_missing)
+                b.txtAdvisorySource.text = a.dir
+                b.txtTreatment.visibility = View.GONE
+            }
+            is ResultViewModel.AdvisoryState.Generating -> {
+                b.txtAdvisory.text = a.textSoFar.replace(Regex("<\\|[^|]*\\|>"), "")
+                b.txtAdvisorySource.text = getString(R.string.advisory_generating)
+                showTreatment(a.decision)
+            }
+            is ResultViewModel.AdvisoryState.Done -> {
+                val r = a.result
+                b.txtAdvisory.text = r.shownText
+                b.txtAdvisorySource.text = getString(
+                    if (r.fromLlama) R.string.advisory_badge_llama else R.string.advisory_badge_fallback
+                ) + "  •  %.1f s".format(r.wallMs / 1000.0)
+                showTreatment(r.decision)
+            }
+            is ResultViewModel.AdvisoryState.Failed -> {
+                b.txtAdvisory.text = a.decision?.let { AdvisoryGate.fallbackText(it) } ?: ""
+                b.txtAdvisorySource.text = "Llama could not run: ${a.message}"
+                showTreatment(a.decision)
+            }
+        }
+    }
+
+    /**
+     * Products and doses come only from the TNAU record, never from model text,
+     * and only when the gate decided to advise.
+     */
+    private fun showTreatment(d: Decision?) {
+        val r: KbRecord? = (d as? Decision.Advise)?.record
+        if (r == null) {
+            b.txtTreatment.visibility = View.VISIBLE
+            b.txtTreatment.text = "No product is recommended for this result.\n" +
+                ((d as? Decision.Abstain)?.reason?.let { "Reason: $it" } ?: "")
+            return
+        }
+        b.txtTreatment.visibility = View.VISIBLE
+        b.txtTreatment.text = buildString {
+            append("${r.disease} (${r.diseaseTa})")
+            r.pathogen?.let { append("\nPathogen: $it") }
+            if (r.biological.isNotEmpty()) {
+                append("\n\nBiological")
+                r.biological.forEach { append("\n  ${it.agent}, ${it.use}: ${it.dose}") }
+            }
+            if (r.chemicals.isNotEmpty()) {
+                append("\n\nChemical (use ONE)")
+                r.chemicals.forEach { append("\n  ${it.active}: ${it.dose}") }
+                r.chemicalNote?.let { append("\n$it") }
+                append("\n\n${AdvisoryGate.NO_INTERVAL_TEXT}")
+            }
+            append("\n\nField practice")
+            r.culturalEn.forEach { append("\n  - $it") }
+            r.sourceUrl?.let { append("\n\nSource: ${r.sourceInstitution}\n$it\nVerified ${r.verifiedOn}") }
+        }
     }
 
     companion object {

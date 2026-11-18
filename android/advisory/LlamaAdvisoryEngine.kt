@@ -56,6 +56,7 @@ class LlamaAdvisoryEngine(
     fun advise(
         topLabel: String,
         confidence: Float,
+        margin: Float,
         onToken: (String) -> Unit,
         onDone: (Result) -> Unit,
         onError: (Throwable) -> Unit,
@@ -64,7 +65,7 @@ class LlamaAdvisoryEngine(
         worker.execute {
             val t0 = System.nanoTime()
             try {
-                val decision = AdvisoryGate.decide(topLabel, confidence)
+                val decision = AdvisoryGate.decide(topLabel, confidence, margin = margin)
                 val prompt = AdvisoryGate.buildPrompt(decision)
                 val sb = StringBuilder()
                 var statsOut: String? = null

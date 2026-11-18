@@ -49,6 +49,13 @@ object AdvisoryGate {
     /** Keep equal to the threshold used in the Python M6 module and the report. */
     const val DEFAULT_THRESHOLD = 0.80f
 
+    /**
+     * Top-1 minus runner-up. Below this the classifier is choosing between two
+     * classes, and ResultActivity already labels the result unreliable, so the
+     * advisory must not recommend any chemical for it either.
+     */
+    const val MIN_MARGIN = 0.20f
+
     const val NO_INTERVAL_TEXT =
         "TNAU does not give a spray interval for this disease. Confirm timing with your " +
             "local agriculture extension officer and follow the product label."
@@ -58,13 +65,22 @@ object AdvisoryGate {
         confidence: Float,
         kb: List<KbRecord> = KnowledgeBase.records,
         threshold: Float = DEFAULT_THRESHOLD,
+        margin: Float = 1f,
+        minMargin: Float = MIN_MARGIN,
     ): Decision {
         require(confidence.isFinite() && confidence in 0f..1f) { "confidence must be in [0,1]" }
+        require(margin.isFinite() && margin in 0f..1f) { "margin must be in [0,1]" }
         val rec = kb.firstOrNull { it.classLabel == topLabel }
             ?: return Decision.Abstain("unknown class '$topLabel'", topLabel, confidence)
         if (confidence < threshold) {
             return Decision.Abstain(
                 "confidence ${"%.2f".format(confidence)} below ${"%.2f".format(threshold)}",
+                topLabel, confidence,
+            )
+        }
+        if (margin < minMargin) {
+            return Decision.Abstain(
+                "margin ${"%.2f".format(margin)} to the runner-up class is below ${"%.2f".format(minMargin)}",
                 topLabel, confidence,
             )
         }

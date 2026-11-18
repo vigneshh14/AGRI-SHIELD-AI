@@ -3,6 +3,10 @@ package org.agrishield.ai
 import android.app.Application
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
+import com.agrishield.advisory.Decision
+import com.agrishield.advisory.LlamaAdvisoryEngine
+import java.io.File
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
@@ -13,6 +17,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.agrishield.ai.ml.Classifier
 import org.agrishield.ai.ml.ImageLoader
@@ -59,6 +64,23 @@ class ResultViewModel(app: Application) : AndroidViewModel(app) {
     private val _state = MutableStateFlow<UiState>(UiState.Idle)
     val state: StateFlow<UiState> = _state.asStateFlow()
 
+    /** Llama advisory, produced after a successful classification. */
+    sealed class AdvisoryState {
+        object NotStarted : AdvisoryState()
+        /** The .pte / tokenizer are not on the phone yet. */
+        data class ModelMissing(val dir: String) : AdvisoryState()
+        data class Generating(val decision: Decision, val textSoFar: String) : AdvisoryState()
+        data class Done(val result: LlamaAdvisoryEngine.Result) : AdvisoryState()
+        data class Failed(val decision: Decision?, val message: String) : AdvisoryState()
+    }
+
+    private val _advisory = MutableStateFlow<AdvisoryState>(AdvisoryState.NotStarted)
+    val advisory: StateFlow<AdvisoryState> = _advisory.asStateFlow()
+
+    // Owned here, not by the activity: survives rotation, closed in onCleared().
+    private var llama: LlamaAdvisoryEngine? = null
+    private var advisoryStarted = false          // main thread only
+
     private val model = OwnedResource<Classifier> { it.close() }
     private var job: Job? = null
     private var startedFor: String? = null      // main thread only
@@ -97,6 +119,9 @@ class ResultViewModel(app: Application) : AndroidViewModel(app) {
             val prediction = classifier.classify(input.img)
 
             _state.value = UiState.Success(thumb, prediction, input)
+            Log.i(TAG_ARM, "classifier label=${prediction.label} conf=${prediction.confidence} " +
+                "margin=${prediction.margin} inferMs=${prediction.latencyMs} preMs=${prediction.preprocessMs}")
+            kotlinx.coroutines.withContext(Dispatchers.Main) { startAdvisory(prediction) }
         } catch (e: CancellationException) {
             throw e                                   // never report cancellation as an error
         } catch (e: InferenceGuard.ClosedException) {
@@ -117,10 +142,62 @@ class ResultViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    /**
+     * Runs gate -> prompt -> Llama 3.2 1B (ExecuTorch) -> output guard.
+     * The engine runs on its own single worker thread; this only wires its
+     * callbacks into [advisory]. Called on the main thread, at most once.
+     */
+    private fun startAdvisory(p: Classifier.Prediction) {
+        if (advisoryStarted) return
+        advisoryStarted = true
+        val dir = File(getApplication<Application>().getExternalFilesDir(null), LLAMA_DIR)
+        val pte = File(dir, LLAMA_PTE)
+        val tok = File(dir, LLAMA_TOKENIZER)
+        if (!pte.isFile || !tok.isFile) {
+            _advisory.value = AdvisoryState.ModelMissing(dir.absolutePath)
+            Log.w(TAG_ARM, "llama model missing in ${dir.absolutePath}")
+            return
+        }
+        val decision = com.agrishield.advisory.AdvisoryGate.decide(
+            p.label, p.confidence.coerceIn(0f, 1f), margin = p.margin.coerceIn(0f, 1f))
+        _advisory.value = AdvisoryState.Generating(decision, "")
+        val engine = llama ?: LlamaAdvisoryEngine(pte, tok).also { llama = it }
+        engine.advise(
+            p.label, p.confidence.coerceIn(0f, 1f), p.margin.coerceIn(0f, 1f),
+            onToken = { t ->
+                _advisory.update { s ->
+                    if (s is AdvisoryState.Generating) s.copy(textSoFar = s.textSoFar + t) else s
+                }
+            },
+            onDone = { r ->
+                _advisory.value = AdvisoryState.Done(r)
+                Log.i(TAG_ARM, "llama wallMs=${r.wallMs} fromLlama=${r.fromLlama} " +
+                    "decision=${r.decision::class.simpleName} violations=${r.violations} stats=${r.statsJson}")
+            },
+            onError = { e ->
+                _advisory.value = AdvisoryState.Failed(decision, "${e.javaClass.simpleName}: ${e.message}")
+                Log.e(TAG_ARM, "llama failed", e)
+            },
+        )
+    }
+
     override fun onCleared() {
         // Cancelled scope + guarded close: a running forward() finishes first,
         // then the native module is destroyed exactly once.
         model.close()
+        // stop() ends a running generate() early; close() then frees ~1 GB of
+        // native memory on the engine's own thread (bounded wait, < ANR limit).
+        llama?.close()
+        llama = null
         super.onCleared()
+    }
+
+    companion object {
+        /** logcat tag for every number that goes into benchmarks/results_arm.md */
+        const val TAG_ARM = "AGRI_ARM"
+        /** Under getExternalFilesDir(null). Filled by scripts/get_llama_model.ps1 -Push. */
+        const val LLAMA_DIR = "llama"
+        const val LLAMA_PTE = "llama3_2_1b_spinquant.pte"
+        const val LLAMA_TOKENIZER = "tokenizer.model"
     }
 }
