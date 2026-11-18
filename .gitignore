@@ -41,3 +41,4 @@ phase2/platform-tools/
 phase2/agrishield_phase2/agrishield_bench
 phase2/agrishield_phase2/lib/
 *.zip
+build_apk/
