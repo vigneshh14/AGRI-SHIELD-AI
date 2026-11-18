@@ -26,8 +26,8 @@ import java.security.MessageDigest
  *   Tensor.fromBlob(float[], long[])        static, returns Tensor
  *   EValue.from(Tensor)                     static, returns EValue
  *   Module.forward(EValue...)               returns EValue[]
- *   EValue.isTensor(), EValue.toTensor()
- *   Tensor.getDataAsFloatArray()
+ *   EValue.isTensor (property), EValue.toTensor()
+ *   Tensor.dataAsFloatArray (property; Kotlin API since 1.5)
  *   Module.destroy()
  */
 class Classifier private constructor(private val module: Module) {
@@ -85,10 +85,10 @@ class Classifier private constructor(private val module: Module) {
             }
             val latencyMs = (System.nanoTime() - t0) / 1_000_000.0
 
-            if (out.isEmpty() || !out[0].isTensor()) {
+            if (out.isEmpty() || !out[0].isTensor) {
                 throw ModelException("Model returned no tensor output.")
             }
-            val logits = out[0].toTensor().getDataAsFloatArray()
+            val logits = out[0].toTensor().dataAsFloatArray
             if (logits.size != AgriShieldPreprocess.CLASSES.size) {
                 throw ModelException(
                     "Model returned ${logits.size} logits, expected " +
