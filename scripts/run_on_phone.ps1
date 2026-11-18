@@ -12,6 +12,15 @@ $ErrorActionPreference = "Stop"
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
 
+# adb from the Phase 2 setup, if it is not already on PATH
+if (-not (Get-Command adb -ErrorAction SilentlyContinue)) {
+    foreach ($d in "$HOME\Documents\AGRI_SHIELD_AI\phase2\platform-tools",
+                   "$env:LOCALAPPDATA\Android\Sdk\platform-tools") {
+        if (Test-Path "$d\adb.exe") { $env:Path = "$d;$env:Path"; break }
+    }
+}
+if (-not (Get-Command adb -ErrorAction SilentlyContinue)) { throw "adb.exe not found. Run setup_adb.bat once." }
+
 $dev = (adb devices) -match "`tdevice$"
 if (-not $dev) { throw "No phone found. Plug it in, allow USB debugging, then run 'adb devices'." }
 
