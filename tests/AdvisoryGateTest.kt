@@ -29,6 +29,9 @@ fun main() {
     val unsourced = kb.map { if (it.id == "tomato_late_blight") it.copy(sourced = false) else it }
     t("unsourced record -> Abstain even at 0.99", AdvisoryGate.decide("Tomato___Late_blight", 0.99f, unsourced) is Decision.Abstain)
     t("NaN confidence rejected", runCatching { AdvisoryGate.decide("Tomato___healthy", Float.NaN) }.isFailure)
+    t("near-tie (margin 0.1) -> Abstain even at 0.9", AdvisoryGate.decide("Tomato___Early_blight", 0.9f, margin = 0.1f) is Decision.Abstain)
+    t("margin exactly at minimum -> Advise", AdvisoryGate.decide("Tomato___Early_blight", 0.9f, margin = AdvisoryGate.MIN_MARGIN) is Decision.Advise)
+    t("NaN margin rejected", runCatching { AdvisoryGate.decide("Tomato___healthy", 0.9f, margin = Float.NaN) }.isFailure)
     t("confidence > 1 rejected", runCatching { AdvisoryGate.decide("Tomato___healthy", 1.5f) }.isFailure)
 
     // Prompt never carries chemical names or doses, for every class x confidence sweep.
@@ -78,7 +81,7 @@ fun main() {
         var res: LlamaAdvisoryEngine.Result? = null
         var err: Throwable? = null
         val toks = mutableListOf<String>()
-        e.advise(label, conf, { toks += it }, { res = it; latch.countDown() }, { err = it; latch.countDown() })
+        e.advise(label, conf, 0.9f, { toks += it }, { res = it; latch.countDown() }, { err = it; latch.countDown() })
         check(latch.await(5, TimeUnit.SECONDS)) { "timeout" }
         e.close()
         err?.let { throw it }
@@ -98,7 +101,7 @@ fun main() {
     val missing = runCatching {
         val e = LlamaAdvisoryEngine(File(dir, "nope.pte"), tok)
         val latch = CountDownLatch(1); var err: Throwable? = null
-        e.advise("Tomato___healthy", 0.9f, {}, { latch.countDown() }, { err = it; latch.countDown() })
+        e.advise("Tomato___healthy", 0.9f, 0.9f, {}, { latch.countDown() }, { err = it; latch.countDown() })
         latch.await(5, TimeUnit.SECONDS); e.close(); err
     }.getOrNull()
     t("engine: missing model reported via onError", missing?.message?.contains("Llama model missing") == true)

@@ -24,4 +24,4 @@ jobs:
       - name: Run gate, guard and engine tests
         run: |
           kotlin -cp out com.agrishield.advisory.AdvisoryGateTestKt | tee test.log
-          grep -q "ALL 70 CHECKS PASSED" test.log
+          grep -q "ALL 73 CHECKS PASSED" test.log

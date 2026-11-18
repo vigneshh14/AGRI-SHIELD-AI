@@ -47,6 +47,28 @@
                 android:padding="12dp" android:background="#FFF4E0" android:visibility="gone" />
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/advisory_heading" android:textSize="16sp"
+                android:textStyle="bold" android:textColor="@color/leaf_900"
+                android:layout_marginTop="22dp" />
+
+            <TextView android:id="@+id/txtAdvisory"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="15sp" android:textColor="@color/on_surface"
+                android:layout_marginTop="6dp" android:lineSpacingExtra="3dp" />
+
+            <TextView android:id="@+id/txtAdvisorySource"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="12sp" android:textColor="@color/muted"
+                android:layout_marginTop="6dp" />
+
+            <TextView android:id="@+id/txtTreatment"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:fontFamily="monospace" android:textSize="12sp"
+                android:textColor="@color/on_surface" android:layout_marginTop="12dp"
+                android:padding="12dp" android:background="#F1F6EE"
+                android:textIsSelectable="true" android:visibility="gone" />
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="All four class probabilities" android:textSize="14sp"
                 android:textStyle="bold" android:layout_marginTop="22dp" />
 
