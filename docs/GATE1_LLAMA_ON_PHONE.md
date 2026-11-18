@@ -33,67 +33,38 @@ Paste the two SHA256 values and the file sizes into `benchmarks/results_arm.md`.
 **Do not commit the `.pte` to Git.** GitHub rejects files over 100 MB. Put the
 download URL and SHA256 in the README instead.
 
-## Step 2: Add the code to the app
+## Step 2: Install the APK (done in the repo since 18 Nov)
 
-Copy into `app/src/main/java/com/agrishield/advisory/`:
-`AdvisoryGate.kt`, `KnowledgeBase.kt`, `LlamaAdvisoryEngine.kt`.
+The advisory is already wired into `PHASE4/android_app`: after the classifier, the
+result screen runs gate → Llama → output guard and shows the TNAU dose table. GitHub
+Actions builds the APK on every push (workflow `android-apk`). Download the
+`agri-shield-ai-debug-apk` artifact from the latest successful run, unzip it, then:
 
-If your app's package is not `com.agrishield...`, change only the `package` line
-in all three files.
-
-**Check the AAR version** in `app/build.gradle(.kts)`:
-
-```kotlin
-implementation("org.pytorch:executorch-android:<version>")
+```powershell
+adb install -r app-debug.apk
 ```
 
-- `0.7.0` or newer: fine, no change.
-- `0.6.x`: does not compile (`onStats` takes a float there). Move to the version
-  the classifier `.pte` was exported with.
+Open the app once, so Android creates its files folder.
 
 ## Step 3: Push the model to the phone
 
-The app reads from its own external files folder, which needs no storage permission:
+```powershell
+.\scripts\get_llama_model.ps1 -Push -Package org.agrishield.ai
+```
+
+This verifies both files again and copies them to
+`/sdcard/Android/data/org.agrishield.ai/files/llama/`, the folder the app reads. No
+storage permission is needed for an app's own folder.
+
+## Step 4: Watch the log
 
 ```powershell
-$PKG="com.agrishield.app"   # <-- your applicationId from build.gradle
-adb shell mkdir -p /sdcard/Android/data/$PKG/files/llama
-adb push llama3_2_1b_spinquant.pte /sdcard/Android/data/$PKG/files/llama/
-adb push tokenizer.model           /sdcard/Android/data/$PKG/files/llama/
-adb shell ls -l /sdcard/Android/data/$PKG/files/llama/
+adb logcat -c
+adb logcat -s AGRI_ARM
 ```
 
-(Install the app once first so the folder belongs to it.)
-
-## Step 4: Call it from the Activity
-
-```kotlin
-private lateinit var llama: LlamaAdvisoryEngine
-
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    val dir = File(getExternalFilesDir(null), "llama")
-    llama = LlamaAdvisoryEngine(File(dir, "llama3_2_1b_spinquant.pte"), File(dir, "tokenizer.model"))
-}
-
-// after the classifier returns (topLabel, confidence):
-llama.advise(topLabel, confidence,
-    onToken = { tok -> runOnUiThread { advisoryView.append(tok) } },
-    onDone  = { r -> runOnUiThread {
-        advisoryView.text = r.shownText
-        sourceBadge.text = if (r.fromLlama) "Llama 3.2 1B · ExecuTorch · on-device"
-                           else "Safety fallback (model output rejected)"
-        // Show doses from the KB, never from Llama:
-        (r.decision as? Decision.Advise)?.record?.let { showChemicalTable(it) }
-        Log.i("AGRI_ARM", "wallMs=${r.wallMs} stats=${r.statsJson} viol=${r.violations}")
-    } },
-    onError = { e -> runOnUiThread { advisoryView.text = "Advisory unavailable: ${e.message}" } })
-
-override fun onDestroy() { llama.close(); super.onDestroy() }
-```
-
-`showChemicalTable` lists `record.chemicals` (active ingredient and dose), then
-`record.chemicalNote`, `AdvisoryGate.NO_INTERVAL_TEXT` and `record.sourceUrl`.
+Each photo logs one `classifier ...` line and one `llama wallMs=... stats=...` line.
+Those lines are the [ARM] evidence.
 
 ## Step 5: Pass the gate
 
@@ -121,7 +92,7 @@ Tag every number `[ARM]`. If a field isn't in the stats string, write "not measu
 
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
-| `Llama model missing` | wrong folder or package name | redo Step 3 with the real applicationId |
+| `Llama model missing` | wrong folder or package name | redo Step 3; the app shows the folder it looked in |
 | Load error / operator not found | `.pte` too old for your AAR (ExecuTorch guarantees `.pte` compatibility only one minor release forward) | Try the sibling `Llama-3.2-1B-Instruct-QLORA_INT4_EO8-ET` (same steps). If that also fails, see the export fallback below |
 | App killed during load | memory pressure (8 GB phone, ~1 GB model) | close other apps; check the classifier `Module` isn't loaded twice |
 | Garbage text | wrong tokenizer | use the `tokenizer.model` from the same repo |
