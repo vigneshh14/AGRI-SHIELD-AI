@@ -147,11 +147,31 @@ class Classifier private constructor(private val module: Module) {
          * partial file is never left under the real name — previously that would
          * have failed the hash check on every launch until the user cleared data.
          */
+        /**
+         * Where an adb-pushed classifier is read from when the APK was built without
+         * the model in assets (the CI build: model weights are never committed).
+         * Same folder family as the Llama model; no storage permission needed.
+         */
+        fun externalModelFile(context: Context): File =
+            File(context.getExternalFilesDir(null), "models/$ASSET_NAME")
+
+        private fun hasAsset(context: Context): Boolean =
+            try { context.assets.open(ASSET_NAME).close(); true } catch (_: Exception) { false }
+
         private fun copyAssetAtomically(context: Context, dest: File) {
             val tmp = File(dest.parentFile, "$ASSET_NAME.partial")
+            val external = externalModelFile(context)
             try {
                 tmp.delete()
-                context.assets.open(ASSET_NAME).use { input ->
+                val source: java.io.InputStream = when {
+                    hasAsset(context) -> context.assets.open(ASSET_NAME)
+                    external.isFile -> external.inputStream()
+                    else -> throw ModelException(
+                        "Classifier model not found. Either build with it in " +
+                        "app/src/main/assets/, or push it to ${external.absolutePath} " +
+                        "(scripts/push_models.ps1). The SHA-256 is checked either way.")
+                }
+                source.use { input ->
                     tmp.outputStream().use { input.copyTo(it) }
                 }
                 if (!tmp.renameTo(dest)) {
@@ -162,8 +182,8 @@ class Classifier private constructor(private val module: Module) {
             } catch (e: Exception) {
                 tmp.delete()
                 throw ModelException(
-                    "Could not copy $ASSET_NAME out of the app package. Was the model " +
-                    "copied into app/src/main/assets/ before building? See BUILD_INSTRUCTIONS.md §2.", e)
+                    "Could not copy $ASSET_NAME into app storage (from assets or " +
+                    "${external.absolutePath}). See BUILD_INSTRUCTIONS.md §2.", e)
             }
         }
 
