@@ -1,24 +1,29 @@
-# Demo video script (Phase 1, ≤ 5 min)
+# Demo video: 2 minutes, 1080p, 16:9, MP4, public
 
-Record the phone screen (Android screen recorder) plus a second camera or the laptop
-webcam showing the phone in your hand, so the jury can see it's real. One take per
-segment is fine; cut them together afterwards.
+The organisers asked for 2 minutes, 1920x1080, 16:9, MP4, uploaded to YouTube or Drive
+and set to Public. Record the laptop screen with the phone mirrored or filmed beside
+it; a phone screen recording alone is 9:16 and must be placed on a 16:9 canvas.
 
-| # | Time | Show | Say (short) |
-| --- | --- | --- | --- |
-| 1 | 0:00–0:25 | Title card: AGRI-SHIELD AI, PS1, your name, CEG | "Farmers lose crops to leaf diseases, and many fields have no reliable internet. This runs entirely on the phone." |
-| 2 | 0:25–0:45 | Swipe down: **airplane mode ON**, Wi-Fi off, mobile data off | "Everything you see from here is offline." |
-| 3 | 0:45–1:45 | Open app → photograph a diseased tomato leaf → diagnosis + confidence appears → advisory text **streams** | "MobileNet classifies the leaf on the CPU. Then Llama 3.2 1B, running through ExecuTorch on this phone, writes the advice." |
-| 4 | 1:45–2:20 | Scroll to the dose table + "Source: TNAU" link + the no-interval note | "Product names and doses never come from the language model. They come from TNAU's published recommendations, shown with the source." |
-| 5 | 2:20–2:50 | Photograph something unclear (blurred leaf / non-tomato leaf) → **abstain** message, no chemicals | "When the model isn't confident, it refuses to recommend any chemical and refers the farmer to the extension officer." |
-| 6 | 2:50–3:20 | Tamil UI: disease name in Tamil | "Disease names and the interface are in Tamil and English." |
-| 7 | 3:20–4:05 | Laptop: `adb shell cat /proc/cpuinfo` (Features line), `adb logcat -s AGRI_ARM` showing the stats line; `benchmarks/results_arm.md` | "Measured on this phone: Dimensity 6080, Armv8.2 with dot-product, no I8MM. These are the real timings." Read 2–3 numbers. |
-| 8 | 4:05–4:40 | GitHub repo page with the green test check | "The safety gate is tested on every push: 70 checks." |
-| 9 | 4:40–5:00 | Limitations slide | "Tomato only for now; severity is experimental; field accuracy on real photos is X%. Phase 2 adds chilli, potato and pests." |
+Tools that need nothing installed: Windows Game Bar (Win+G) records a window as MP4;
+Clipchamp (built into Windows 11) cuts clips and exports 1080p MP4. To show the phone
+on the laptop, `scrcpy` mirrors it over the same adb connection.
 
-## Rules
-- Only show numbers that are in `benchmarks/results_arm.md`.
-- If Llama isn't integrated into the app by recording day, show segment 3 with the
-  ExecuTorch runner on the phone instead, and say so in the narration.
-- Upload as YouTube **unlisted** (or Drive "anyone with the link"). Test the link in a
-  private window before submitting.
+Say only what the clip on screen proves. Two versions of the middle segment are
+given: use A if Llama has run on the phone, B if it has not.
+
+| Time | On screen | Narration (about 260 words in all) |
+| --- | --- | --- |
+| 0:00-0:12 | Title card: AGRI-SHIELD AI, PS1, your name, CEG | "AGRI-SHIELD AI diagnoses tomato leaf disease and gives treatment advice on an Arm phone, fully offline." |
+| 0:12-0:25 | Phone: airplane mode switched on; then the app's About screen showing "no INTERNET permission" | "The phone is in airplane mode, and the app does not even ask for network permission." |
+| 0:25-0:55 | Phone: pick a diseased leaf photo; class, confidence and probabilities appear | "A MobileNetV2 classifier runs through ExecuTorch on the phone's Cortex-A76 cores in about 12.5 milliseconds." |
+| 0:55-1:25 A | Advisory text streaming, badge "Written by Llama 3.2 1B · ExecuTorch · on this phone, offline", then the TNAU dose table with source link | "Llama 3.2 1B, quantised to 4 bits, writes the advice on the device. It is never given product names or doses: those come straight from TNAU's published recommendations, with the source." |
+| 0:55-1:25 B | `results_arm_proot.md` table, then the advisory code and the 73-check test badge on GitHub | "On-device classifier results: 12.5 ms median offline, matching the desktop to 2 millionths of a logit. The Llama advisory stage is built and tested; its on-phone run is the remaining Phase 1 step." |
+| 1:25-1:40 | A blurred or non-tomato photo: no product shown, "No product is recommended for this result" | "When the model is unsure, the app recommends nothing and refers the farmer to the extension officer." |
+| 1:40-1:55 | Report table: 95.6% lab accuracy vs 39.1% on field photos | "Honest limit: 95.6% on lab images, 39.1% on field photos. That gap is why safety rests on what the model is given, not on its confidence." |
+| 1:55-2:00 | GitHub repo URL | "Code, APK and report: github.com/vigneshh14/AGRI-SHIELD-AI." |
+
+## Before uploading
+
+- Length 2:00 or under. Export 1920x1080 MP4.
+- Every number spoken appears in the report.
+- Upload, set to Public, open the link in a private window to check it plays.

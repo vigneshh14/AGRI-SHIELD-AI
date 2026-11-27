@@ -1,0 +1,16 @@
+flowchart TB
+  A["Leaf photo<br/>(camera / gallery)"] --> B["Preprocess<br/>resize 109, crop 96<br/>Kotlin, bit-exact"]
+  B --> C["MobileNetV2 classifier<br/>ExecuTorch + XNNPACK<br/>Cortex-A76/A55 CPU"]
+  C --> D{"Confidence gate<br/>p ≥ 0.80 and<br/>margin ≥ 0.20"}
+  D -- "pass + sourced record" --> E["TNAU knowledge base<br/>(local JSON)"]
+  D -- "fail" --> F["Abstain record<br/>no chemicals"]
+  E --> G["Prompt builder<br/>no product names or doses"]
+  F --> G
+  G --> H["Llama 3.2 1B Instruct<br/>SpinQuant INT4<br/>ExecuTorch LlmModule"]
+  H --> I{"Output guard<br/>chemical / dose / interval"}
+  I -- "clean" --> J["Advisory text"]
+  I -- "violation" --> K["Fixed fallback text<br/>labelled as such"]
+  E --> L["Dose table straight<br/>from TNAU record"]
+  J --> M["Result screen<br/>(no network permission)"]
+  K --> M
+  L --> M

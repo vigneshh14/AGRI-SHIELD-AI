@@ -68,10 +68,23 @@ the phone offline. Only `[ARM]` numbers support on-device claims, and they live 
 Source: [executorch-community/Llama-3.2-1B-Instruct-SpinQuant_INT4_EO8-ET](https://huggingface.co/executorch-community/Llama-3.2-1B-Instruct-SpinQuant_INT4_EO8-ET).
 Llama 3.2 is subject to Meta's Llama 3.2 Community License.
 
-## Status (Phase 1, due 23 Nov 2026)
+## For evaluators (Phase 1 submission)
 
-Being completed. See `docs/PHASE1_PLAN_13_to_21_NOV.md` and `docs/SUBMISSION_CHECKLIST.md`.
-The vision pipeline, Android app and Phase 1 report are being merged into this repository.
+| What | Where |
+| --- | --- |
+| Final report (PDF / DOCX) | [`reports/final/AGRI_SHIELD_AI_Final_Report.pdf`](reports/final/AGRI_SHIELD_AI_Final_Report.pdf), [`.docx`](reports/final/AGRI_SHIELD_AI_Final_Report.docx) |
+| Android APK (CI build) | [Releases: apk-latest](https://github.com/vigneshh14/AGRI-SHIELD-AI/releases/tag/apk-latest) |
+| Android app source | [`PHASE4/android_app`](PHASE4/android_app) + [`android/advisory`](android/advisory) |
+| On-phone classifier results | [`benchmarks/results_arm_proot.md`](benchmarks/results_arm_proot.md) |
+| Training, evaluation, leakage audit | [`disease_detection/`](disease_detection), [`PHASE1_RESULTS.md`](PHASE1_RESULTS.md) |
+| TNAU treatment knowledge base | [`knowledge_base/tomato_tnau_v2.json`](knowledge_base/tomato_tnau_v2.json) |
+
+The 31 October `PHASE1_REPORT.*` files are an earlier draft, superseded by
+`reports/final/`; they are kept for history (for example the withdrawn I8MM claim).
+
+Status as of 27 Nov 2026: the classifier runs on the phone ([ARM-PROOT], 12.538 ms median
+offline); the Llama advisory stage is integrated in the app, builds in CI and passes its
+tests, and its first run on the phone is pending (report section 3.6).
 
 ## Known limitations
 

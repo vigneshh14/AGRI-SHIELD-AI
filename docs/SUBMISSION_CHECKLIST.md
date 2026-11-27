@@ -1,4 +1,9 @@
-# Phase 1 submission checklist (submit by Sat 21 Nov)
+# Phase 1 submission checklist
+
+Form: https://forms.gle/3KyscquPFG8rS9ASA (one submission only). Original deadline
+25 Nov 2026; extension to 30 Nov 2026 offered on 27 Nov against a written justification.
+Required: public repo link, public 2-minute 1080p MP4 video link, final report (.pdf/.docx)
+covering methodology, results, hardware utilisation and optimisation techniques.
 
 ## Mandatory (any unchecked box = do not submit yet)
 - [ ] Llama 3.2 1B runs on the phone through ExecuTorch, in airplane mode, with a screen recording
