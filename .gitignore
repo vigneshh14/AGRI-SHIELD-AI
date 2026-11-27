@@ -30,15 +30,11 @@ datasets/processed/
 !datasets/metadata/
 !datasets/metadata/*.csv
 !datasets/metadata/*.json
-llama_advisory/model/*
 runs/**/*.pt
 .ipynb_checkpoints/
 logs/*.log
 .DS_Store
 Thumbs.db
 # third-party / build artifacts deliberately not committed
-phase2/platform-tools/
-phase2/agrishield_phase2/agrishield_bench
-phase2/agrishield_phase2/lib/
 *.zip
 build_apk/

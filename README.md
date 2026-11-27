@@ -1,93 +1,67 @@
 # AGRI-SHIELD AI
 
-**Offline crop-disease detection and farmer advisory on an Arm phone, with Llama 3.2 1B running through ExecuTorch.**
+Offline tomato-disease detection and farmer advisory on an Arm Android phone, with Llama 3.2 1B through ExecuTorch.
 
-Bharat AI-SoC Challenge 2026–27 · Problem Statement 1 · Solo entry: Vignesh S, M.E. VLSI Design,
-College of Engineering Guindy, Anna University.
+Bharat AI-SoC Challenge 2026-27, Problem Statement 1, Phase 1 submission. Solo entry: Vignesh S, M.E. VLSI Design, College of Engineering Guindy, Anna University, Chennai.
 
 [![advisory-safety-tests](https://github.com/vigneshh14/AGRI-SHIELD-AI/actions/workflows/tests.yml/badge.svg)](https://github.com/vigneshh14/AGRI-SHIELD-AI/actions/workflows/tests.yml)
+[![android-apk](https://github.com/vigneshh14/AGRI-SHIELD-AI/actions/workflows/android-apk.yml/badge.svg)](https://github.com/vigneshh14/AGRI-SHIELD-AI/actions/workflows/android-apk.yml)
 
-A farmer photographs a tomato leaf. The phone, in airplane mode, identifies the disease,
-retrieves the official treatment record, and explains it in plain language. No cloud, no
-network.
+A farmer photographs a tomato leaf. The phone, offline, classifies it, and Llama 3.2 1B explains the result in plain language. Product names and doses never come from the language model: they are shown from a local copy of Tamil Nadu Agricultural University's published recommendations, and only when the classifier is confident.
 
 ```
-camera → MobileNet classifier (ExecuTorch, XNNPACK) → confidence gate
-   ├─ confident + sourced record → Llama 3.2 1B (ExecuTorch) explains → output guard → screen
-   │                                                     + dose table straight from TNAU record
-   └─ not confident / not sourced → abstain: "don't spray, retake photo / see extension officer"
+photo -> MobileNetV2 (ExecuTorch, XNNPACK, Arm CPU) -> confidence gate (p >= 0.80, margin >= 0.20)
+   pass -> TNAU record -> prompt without products or doses -> Llama 3.2 1B (ExecuTorch) -> output guard -> screen
+                       -> dose table straight from the TNAU record ------------------------------------> screen
+   fail -> "no product recommended; retake the photo or see the extension officer"
 ```
 
-## Mandatory requirements
+## Phase 1 deliverables
 
-| Requirement | How | Evidence |
-| --- | --- | --- |
-| Llama-family model owns the advisory | Llama 3.2 1B Instruct (SpinQuant INT4) writes the farmer-facing text | `android/advisory/LlamaAdvisoryEngine.kt` |
-| ExecuTorch is the runtime | `org.pytorch:executorch-android` `LlmModule`, XNNPACK | `benchmarks/results_arm.md` |
-| Runs on Arm, offline | Infinix NOTE 30 5G (MediaTek Dimensity 6080), airplane mode | demo video, `[ARM]` results |
-| Hosted on GitHub | this repository | — |
-
-## Safety design (pesticide advice)
-
-- **Doses never come from the language model.** They are shown from
-  `knowledge_base/tomato_tnau_v2.json`; each product traces to a TNAU Agritech page,
-  verified 13 Nov 2026.
-- **The prompt contains no chemical names or doses at all.** Llama explains the disease and
-  field practices only.
-- **Output guard:** if the model's text names any pesticide, any dose or any spray interval,
-  it's rejected and a fixed, clearly labelled fallback is shown.
-- **Abstain below the confidence threshold:** no chemical information is shown anywhere.
-- 70 automated checks (gate, prompt-leak sweep over every class × confidence, guard, engine)
-  run on every push; see the badge.
-
-## Claim discipline
-
-Every number carries one tag: `[SIM]` simulated, `[DESK]` x86 laptop, `[ARM]` measured on
-the phone offline. Only `[ARM]` numbers support on-device claims, and they live only in
-`benchmarks/results_arm.md`.
-
-## Repository
-
-| Path | Contents |
+| Deliverable | Where |
 | --- | --- |
-| `android/advisory/` | Gate, prompt, guard (`AdvisoryGate.kt`), Llama engine, generated KB |
-| `knowledge_base/` | TNAU-sourced records (source of truth) |
-| `tools/gen_kb_kotlin.py` | Regenerates `KnowledgeBase.kt` from the JSON |
-| `tests/` | JVM tests + ExecuTorch API stubs (test-only) |
-| `scripts/get_llama_model.ps1` | Downloads and hash-verifies the Llama model + tokenizer |
-| `benchmarks/results_arm.md` | On-device measurements |
-| `docs/` | Llama-on-phone runbook, plan, checklist, demo script, report corrections |
+| Technical report | [`report/AGRI_SHIELD_AI_Final_Report.pdf`](report/AGRI_SHIELD_AI_Final_Report.pdf) ([.docx](report/AGRI_SHIELD_AI_Final_Report.docx)) |
+| Application (Android APK) | [Releases: apk-latest](https://github.com/vigneshh14/AGRI-SHIELD-AI/releases/tag/apk-latest), built by CI from this repository |
+| Source code | this repository (layout below) |
+| Demonstration video | link in the submission form |
 
-## Get the model (not stored in Git: 1.1 GB)
+## Repository layout
+
+| Folder | Contents |
+| --- | --- |
+| [`android_app/`](android_app) | Kotlin Android app: camera/gallery, preprocessing, ExecuTorch classifier, result screen with the Llama advisory |
+| [`advisory/`](advisory) | Confidence gate, Llama prompt, output guard, `LlmModule` engine, generated knowledge base, and their 73-check test suite |
+| [`knowledge_base/`](knowledge_base) | `tomato_tnau_v2.json`, treatment records copied from the TNAU Agritech portal with source URLs |
+| [`model/`](model) | Leakage-safe split, MobileNetV2 training, PlantDoc evaluation, audit, ExecuTorch export; results in `model/results/` and [`model/RESULTS.md`](model/RESULTS.md) |
+| [`benchmarks/`](benchmarks) | Measurements on the phone: [`results_arm_proot.md`](benchmarks/results_arm_proot.md) (classifier), [`results_arm.md`](benchmarks/results_arm.md) (app, Llama) |
+| [`report/`](report) | Final report: Markdown source, figures, PDF, DOCX |
+| [`scripts/`](scripts) | Download and verify the Llama model, push models to the phone, install and run the app |
+| [`docs/`](docs) | How to run on the phone, ExecuTorch setup log, demo video script |
+
+## Key results
+
+| | Result | Tag |
+| --- | --- | --- |
+| Accuracy, held-out PlantVillage (936 images) | 0.9562, macro F1 0.9506 | [DESK] |
+| Accuracy, PlantDoc field photos (350, never trained on) | 0.3914 | [DESK] |
+| Classifier on the phone, airplane mode | 12.538 ms median, 23.7 MB peak RSS | [ARM-PROOT] |
+| Phone vs x86 agreement | 8/8 top-1, max logit difference 2.384e-6 | [ARM-PROOT] |
+| Llama advisory on the phone | integrated and built; first on-phone run pending | none |
+
+[DESK]: x86 development machine. [ARM-PROOT]: the phone's own Arm cores, Debian userland under proot. [ARM]: inside the native app on the phone. Report section 3.6 states the Llama status in full.
+
+## Run it
 
 ```powershell
-.\scripts\get_llama_model.ps1                      # download + verify SHA256
-.\scripts\get_llama_model.ps1 -Push -Package <applicationId>   # also adb-push to the phone
+git clone https://github.com/vigneshh14/AGRI-SHIELD-AI.git
+cd AGRI-SHIELD-AI
+.\scripts\run_on_phone.ps1 -Classifier <path to agrishield_tomato4.pte>
 ```
 
-Source: [executorch-community/Llama-3.2-1B-Instruct-SpinQuant_INT4_EO8-ET](https://huggingface.co/executorch-community/Llama-3.2-1B-Instruct-SpinQuant_INT4_EO8-ET).
-Llama 3.2 is subject to Meta's Llama 3.2 Community License.
+This downloads the CI-built APK, installs it, verifies and copies the classifier and the Llama model (1.1 GB, fetched and SHA-256 checked by `scripts/get_llama_model.ps1`), and shows the on-device log. Details: [`docs/RUN_ON_PHONE.md`](docs/RUN_ON_PHONE.md). Model files are never committed.
 
-## For evaluators (Phase 1 submission)
+Llama model: [executorch-community/Llama-3.2-1B-Instruct-SpinQuant_INT4_EO8-ET](https://huggingface.co/executorch-community/Llama-3.2-1B-Instruct-SpinQuant_INT4_EO8-ET), subject to Meta's Llama 3.2 Community License. Datasets: PlantVillage (Mohanty et al. 2016), PlantDoc (Singh et al. 2020, CC BY 4.0).
 
-| What | Where |
-| --- | --- |
-| Final report (PDF / DOCX) | [`reports/final/AGRI_SHIELD_AI_Final_Report.pdf`](reports/final/AGRI_SHIELD_AI_Final_Report.pdf), [`.docx`](reports/final/AGRI_SHIELD_AI_Final_Report.docx) |
-| Android APK (CI build) | [Releases: apk-latest](https://github.com/vigneshh14/AGRI-SHIELD-AI/releases/tag/apk-latest) |
-| Android app source | [`PHASE4/android_app`](PHASE4/android_app) + [`android/advisory`](android/advisory) |
-| On-phone classifier results | [`benchmarks/results_arm_proot.md`](benchmarks/results_arm_proot.md) |
-| Training, evaluation, leakage audit | [`disease_detection/`](disease_detection), [`PHASE1_RESULTS.md`](PHASE1_RESULTS.md) |
-| TNAU treatment knowledge base | [`knowledge_base/tomato_tnau_v2.json`](knowledge_base/tomato_tnau_v2.json) |
+## Limitations
 
-The 31 October `PHASE1_REPORT.*` files are an earlier draft, superseded by
-`reports/final/`; they are kept for history (for example the withdrawn I8MM claim).
-
-Status as of 27 Nov 2026: the classifier runs on the phone ([ARM-PROOT], 12.538 ms median
-offline); the Llama advisory stage is integrated in the app, builds in CI and passes its
-tests, and its first run on the phone is pending (report section 3.6).
-
-## Known limitations
-
-Tomato only (4 classes) in Phase 1; severity estimate is experimental; TNAU gives no spray
-interval for these diseases, so none is stated; Tamil strings await native-speaker review;
-the advisory text is generated in English.
+Tomato only, 4 classes, no pest module. Field accuracy 39.1%. Severity banding is an experimental desktop script (`model/severity_experimental.py`), not in the app. TNAU gives no spray interval for these diseases, so none is stated. Tamil disease names await native-speaker review; advisory text is in English.

@@ -1,10 +1,10 @@
 # Generated / CI-checked sources must be LF so the KnowledgeBase.kt sync check is
 # byte-exact on Linux CI regardless of the editor's OS. Scoped deliberately: raw
 # device logs and frozen earlier-phase files keep their recorded bytes (and hashes).
-android/advisory/*.kt   text eol=lf
-tests/*.kt              text eol=lf
-tests/stubs/*.kt        text eol=lf
-tools/*.py              text eol=lf
+advisory/*.kt           text eol=lf
+advisory/tests/*.kt     text eol=lf
+advisory/tests/stubs/*.kt text eol=lf
+advisory/*.py           text eol=lf
 knowledge_base/*.json   text eol=lf
 .github/workflows/*.yml text eol=lf
-PHASE4/android_app/gradlew text eol=lf
+android_app/gradlew text eol=lf

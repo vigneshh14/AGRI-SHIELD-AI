@@ -19,7 +19,7 @@ if (-not (Get-Command adb -ErrorAction SilentlyContinue)) {
         if (Test-Path "$d\adb.exe") { $env:Path = "$d;$env:Path"; break }
     }
 }
-if (-not (Get-Command adb -ErrorAction SilentlyContinue)) { throw "adb.exe not found. Run setup_adb.bat once." }
+if (-not (Get-Command adb -ErrorAction SilentlyContinue)) { throw "adb.exe not found. Install Android platform-tools (developer.android.com/tools/releases/platform-tools) and add it to PATH." }
 
 $dev = (adb devices) -match "`tdevice$"
 if (-not $dev) { throw "No phone found. Plug it in, allow USB debugging, then run 'adb devices'." }

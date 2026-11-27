@@ -16,11 +16,11 @@ jobs:
           echo "$PWD/kotlinc/bin" >> "$GITHUB_PATH"
       - name: KnowledgeBase.kt is in sync with the JSON
         run: |
-          cp android/advisory/KnowledgeBase.kt /tmp/before.kt
-          python3 tools/gen_kb_kotlin.py
-          cmp android/advisory/KnowledgeBase.kt /tmp/before.kt
+          cp advisory/KnowledgeBase.kt /tmp/before.kt
+          python3 advisory/gen_kb_kotlin.py
+          cmp advisory/KnowledgeBase.kt /tmp/before.kt
       - name: Compile (warnings are errors)
-        run: kotlinc -Werror android/advisory/*.kt tests/*.kt tests/stubs/*.kt -d out
+        run: kotlinc -Werror advisory/*.kt advisory/tests/*.kt advisory/tests/stubs/*.kt -d out
       - name: Run gate, guard and engine tests
         run: |
           kotlin -cp out com.agrishield.advisory.AdvisoryGateTestKt | tee test.log
