@@ -44,10 +44,9 @@ jobs:
           cp app/build/outputs/apk/debug/app-debug.apk agri-shield-ai-debug.apk
           sha256sum agri-shield-ai-debug.apk > agri-shield-ai-debug.apk.sha256
           NOTES="Debug APK built by CI from ${GITHUB_SHA::7}. Models are NOT inside: run scripts/run_on_phone.ps1. SHA256: $(cut -d' ' -f1 agri-shield-ai-debug.apk.sha256)"
-          if gh release view apk-latest >/dev/null 2>&1; then
-            gh release upload apk-latest agri-shield-ai-debug.apk agri-shield-ai-debug.apk.sha256 --clobber
-            gh release edit apk-latest --notes "$NOTES" --target "$GITHUB_SHA"
-          else
-            gh release create apk-latest agri-shield-ai-debug.apk agri-shield-ai-debug.apk.sha256 \
-              --prerelease --title "AGRI-SHIELD AI debug APK (latest CI build)" --notes "$NOTES" --target "$GITHUB_SHA"
-          fi
+          # Recreate release and tag on this commit every time, so the tag never
+          # points at a commit that is no longer on main (e.g. after a history rewrite).
+          gh release delete apk-latest --cleanup-tag --yes 2>/dev/null || true
+          git push --delete origin refs/tags/apk-latest 2>/dev/null || true
+          gh release create apk-latest agri-shield-ai-debug.apk agri-shield-ai-debug.apk.sha256 \
+            --prerelease --title "AGRI-SHIELD AI debug APK (latest CI build)" --notes "$NOTES" --target "$GITHUB_SHA"
